@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="isolate bg-white px-6 py-24 sm:py-32 lg:px-8 add-bg overflow-auto">
+    {% if form.errors %}
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+      <strong class="font-bold">Oops! There was an error.</strong>
+      <ul class="list-disc ml-5">
+        {% for field in form %}
+        {% for error in field.errors %}
+        <li>{{ field.label }}: {{ error|escape }}</li>
+        {% endfor %}
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+    <div class="h-full w-full bg-blue-300 p-10 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100">
+    <div class="mx-auto max-w-2xl text-center">
+      
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{% if form.instance.id %} Update Ticket {% else %} Create Ticket {% endif %}</h1>
+    
+    
+      <p class="mt-2 text-lg leading-8 text-gray-600">Aute magna irure deserunt veniam aliqua magna enim voluptate.</p>
+    </div>
+    
+    <form  method="POST" enctype="multipart/form-data" class="mx-auto mt-16  sm:mt-20">
+      {% csrf_token %}
+
+
+      <div class="grid lg:grid-cols-4 md:grid-cols-3 gap-x-8 gap-y-6 sm:grid-cols-2">
+        <!-- PNR Field -->
+        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+          <label for="pnr" class=" block text-sm font-semibold leading-6 text-gray-900">PNR</label>
+          <div class="mt-2.5">
+            <input type="text" name="pnr" id="pnr" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{{ form.instance.pnr }}">
+          </div>
+        </div>
+        <!-- SECTOR Field -->
+        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+          <label for="sector" class="block text-sm font-semibold leading-6 text-gray-900">Sector</label>
+          <div class="mt-2.5">
+            <input type="text" name="sector" id="sector" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.sector %}{{ form.instance.sector }}{% endif %}">
+          </div>
+        </div>
+      
+        <!-- PASSENGER Field -->
+        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+          <label for="passenger_name" class="block text-sm font-semibold leading-6 text-gray-900">Passenger</label>
+          <div class="mt-2.5">
+            <input type="text" name="passenger_name" id="passenger_name" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.passenger %}{{ form.instance.passenger }}{% endif %}">
+          </div>
+        </div>
+      
+        <!-- AIRLINE Field -->
+        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+          <label for="airline_name" class="block text-sm font-semibold leading-6 text-gray-900">Airline</label>
+          <div class="mt-2.5">
+            <input type="text" name="airline_name" id="airline_name" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.airline %}{{ form.instance.airline }}{% endif %}">
+          </div>
+        </div>
+
+        <!-- Supplier Field -->
+        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+          <label for="supplier_name" class="block text-sm font-semibold leading-6 text-gray-900">Supplier</label>
+          <div class="mt-2.5">
+            <input type="text" name="supplier_name" id="supplier_name" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.supplier %}{{ form.instance.supplier }}{% endif %}">
+          </div>
+        </div>
+      
+        <!-- CUSTOMER Field -->
+        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+          <label for="customer_name" class="block text-sm font-semibold leading-6 text-gray-900">Customer</label>
+          <div class="mt-2.5">
+            <input type="text" name="customer_name" id="customer_name" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.customer %}{{ form.instance.customer }}{% endif %}">
+          </div>
+        </div>
+      
+        <!-- CREATED AT Field -->
+        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+          <label for="created_at" class="block text-sm font-semibold leading-6 text-gray-900">Created At</label>
+          <div class="mt-2.5">
+            <input type="date" name="created_at" id="created_at" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{{ form.instance.created_at|date:'Y-m-d' }}">
+            {% comment %} '%d-%m-%Y'  %d %b %Y{% endcomment %}
+          </div>
+        </div>
+      
+        <!-- TRAVEL DATE Field -->
+        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+          <label for="travel_date" class="block text-sm font-semibold leading-6 text-gray-900">Travel Date</label>
+          <div class="mt-2.5">
+            <input type="date" name="travel_date" id="travel_date" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.travel_date %}{{ form.instance.travel_date|date:'Y-m-d' }}{% endif %}">
+          </div>
+        </div>
+        
+        <!-- Sale Field-->
+      <div class="col-span-4  flex justify-center mt-6 space-x-8">
+        <div>
+          <label for="sale" class="block text-sm font-semibold leading-6 text-gray-900">Sale</label>
+          <div class="mt-2.5">
+            <input type="text" name="sale" id="sale" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.customer.sale %}{{ form.instance.customer.sale }}{% endif %}">
+          </div>
+        </div>
+
+        <!-- Purchase Field-->
+        <div>
+          <label for="purchase" class="block text-sm font-semibold leading-6 text-gray-900">Purchase</label>
+          <div class="mt-2.5">
+            <input type="text" name="purchase" id="purchase" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.supplier.purchase %}{{ form.instance.supplier.purchase }}{% endif %}">
+          </div>
+        </div>
+      </div>
+      <div class="col-span-4 flex justify-center mt-6">
+        <div class="flex items-center space-x-4">
+          <!-- Update or Save Ticket button -->
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+            {% if form.instance.id %} Update Ticket {% else %} Save Ticket {% endif %}
+          </button>
+          
+          <!-- Back to Tickets button -->
+          <a href="{% url 'ticket_list' %}" class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Back to Tickets
+          </a>
+        </div>
+      </div>
+      
+    </div> <!--Grid End-->
+  </div>
+    </div>
+     </form>
+     
+    </div>
+{% endblock %}

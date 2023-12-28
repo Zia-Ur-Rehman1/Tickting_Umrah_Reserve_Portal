@@ -1,0 +1,7 @@
+.add-bg {
+  background: white url('/static/images/ticket-bg.jpg') center center/100% 100% no-repeat ;
+
+  margin: 0; /* Ensure there's no default margin */
+  height: 100vh; /* Set the height to 100% of the viewport height */
+  overflow: hidden; 
+}

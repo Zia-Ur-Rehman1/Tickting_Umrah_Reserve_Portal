@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form  method="POST" enctype="multipart/form-data" action="{% url 'get_csv' %}" class="mx-auto mt-8 mb-8   ">
+  {% csrf_token %}
+<div class="grid lg:grid-cols-2 md:grid-cols-2 gap-x-8  sm:grid-cols-2 ">
+  <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+    <label for="supplier_name" class="block text-sm font-semibold leading-6 text-gray-900">Supplier</label>
+    <div class="mt-2.5">
+      <input type="text" name="supplier_name" id="supplier_name" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" >
+    </div>
+  </div>
+
+  <!-- CUSTOMER Field -->
+  <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+    <label for="customer_name" class="block text-sm font-semibold leading-6 text-gray-900">Customer</label>
+    <div class="mt-2.5">
+      <input type="text" name="customer_name" id="customer_name" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" >
+    </div>
+  </div>
+
+  <!-- Start Date Field -->
+  <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+    <label for="start_at" class="block text-sm font-semibold leading-6 text-gray-900">Created At</label>
+    <div class="mt-2.5">
+      <input type="date" name="start_at" id="start_at" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required >
+      {% comment %} '%d-%m-%Y'  %d %b %Y{% endcomment %}
+    </div>
+  </div>
+
+  <!-- End Date Field -->
+  <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+    <label for="end_at" class="block text-sm font-semibold leading-6 text-gray-900">Created At</label>
+    <div class="mt-2.5">
+      <input type="date" name="end_at" id="end_at" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required >
+      {% comment %} '%d-%m-%Y'  %d %b %Y{% endcomment %}
+    </div>
+  </div>
+    
+<button
+type="submit"
+class="col-span-2 mt-8 ml-1 inline-block rounded bg-primary  px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+data-te-ripple-init
+data-te-ripple-color="light">
+Generate CSV
+</button>
+</div> 
+
+</form>
+{% endblock %}
+<!-- Modal -->
