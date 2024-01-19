@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load math_filters %}
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <caption class="p-5 text-lg  font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+            
+           <span class='text-base'>Supplier Name:</span>
+           
+           <span class=''>{{ supplier.name }}</span>
+  </caption>
+    
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+              <th scope="col" class="px-6 py-3">
+                  PNR
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Passenger
+              </th>
+            
+              <th scope="col" class="px-6 py-3">
+                  Purchase
+              </th>
+              <th scope="col" class="px-6 py-3">
+                  Date
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Payment
+              </th>
+
+              <th scope="col" class="px-6 py-3">
+                Payment Date
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Total
+              </th>
+
+
+            </tr>
+      </thead>
+      <tbody>
+        {% with total=supplier.opening_balance %}
+          {% for entry in data %}
+              <tr class="bg-white text-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    {% if entry.pnr %}
+                      {# Ticket Data #}
+                      <td class="px-6 py-4 bg-red-400">{{ entry.pnr }}</td>
+                      <td class="px-6 py-4 bg-red-400">{{ entry.passenger }}</td>
+                      <td class="px-6 py-4 bg-red-500">Rs: {{ entry.purchase }}</td>
+                      <td class="px-6 py-4 bg-red-400">{{ entry.created_at|date:"d M h:i a" }}</td>
+                      <td class="px-6 py-4"></td> 
+                      <td class="px-6 py-4"></td> 
+                      
+                      {% with total=total|add:entry.purchase %}
+                      <td class="px-6 py-4 text-black">Rs: {{total}}</td>
+                      {% endwith %}
+                    {% else %}
+                      {# Ledger Data #}
+                      <td class="px-6 py-4"></td>  {# Leave PNR cell empty for Ledger #}
+                      <td class="px-6 py-4"></td> 
+                      <td class="px-6 py-4"></td>  
+                      <td class="px-6 py-4"></td>  
+                      <td class="px-6 py-4 bg-green-400">Rs: {{entry.payment}}</td>  
+                      <td class="px-6 py-4 bg-green-500">{{ entry.payment_date|date:"d M h:i a" }}</td>
+                      {% with total=total|subtract:entry.payment %}
+                      <td class="px-6 py-4 text-black">Rs: {{total}}</td>
+                      {% endwith %}
+
+                    {% endif %}
+              </tr>
+          {% endfor %}
+      {% endwith %}
+      </tbody>
+  </table>
+</div>
+{% endblock %}

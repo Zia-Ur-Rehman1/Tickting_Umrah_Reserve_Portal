@@ -1,0 +1,34 @@
+<div class="mt-8 flow-root mx-4">
+  <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-300">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="py-3.5  pr-3 text-left text-sm font-semibold text-gray-900 pl-2"> Name </th>
+              <th scope="col" class="py-3.5  pr-3 text-left text-sm font-semibold text-gray-900 pl-2"> Purchase </th>
+              <th scope="col" class="py-3.5  pr-3 text-left text-sm font-semibold text-gray-900 pl-2"> Opening Balance </th>
+            </tr>
+
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+              {% for field in data %}
+              <tr>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ field.name }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ field.total_purchase }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ field.opening_balance }}</td>
+              </tr>
+              {% comment %} <a href="{% url 'supplier_ledger' pk=data.pk %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a> {% endcomment %}
+            {% endfor %}
+
+            {% comment %} <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+              <a href="{% url 'ledger_update' pk=data.pk %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
+            </td> {% endcomment %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>

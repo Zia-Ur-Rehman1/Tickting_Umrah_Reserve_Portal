@@ -23,16 +23,16 @@
           <tbody class="divide-y divide-gray-200 bg-white">
             {% for ticket in tickets %}
               <tr>
-                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ ticket.created_at }}</td>
+                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ ticket.created_at|date:"d-M" }}</td>
                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ ticket.pnr }}</td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.sector }}</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.travel_date }}</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.airline.name }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.travel_date|date:"d-M" }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.airline }}</td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.supplier.name }}</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.supplier.purchase }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.purchase }}</td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.customer.name }}</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.customer.sale }}</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.passenger.name }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.sale }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.passenger }}</td>
                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
 
                   <a href="{% url 'ticket_update' pk=ticket.pk %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>

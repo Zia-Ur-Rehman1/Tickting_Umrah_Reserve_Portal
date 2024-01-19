@@ -1,0 +1,154 @@
+{% extends "base.html" %} {% block content %}
+<link
+  href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+  rel="stylesheet"
+/>
+<div class="isolate bg-white px-6 py-24 sm:py-32 lg:px-8 add-bg">
+  {% if form.errors %}
+  <div
+    class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+    role="alert"
+  >
+    <strong class="font-bold">Oops! There was an error.</strong>
+    <ul class="list-disc ml-5">
+      {% for field in form %} {% for error in field.errors %}
+      <li>{{ field.label }}: {{ error|escape }}</li>
+      {% endfor %} {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <div
+    class="h-full w-full bg-blue-300 p-10 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100"
+  >
+    <div class="mx-auto max-w-2xl text-center">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        {% if form.instance.id %} Update Ledger {% else %} Create Ledger {% endif %}
+      </h1>
+    </div>
+    <div class="grid grid-cols-1 grid-rows-4 gap-4">
+      <form
+        method="POST"
+        enctype="multipart/form-data"
+        class="mx-auto mt-16 sm:mt-20"
+      >
+        {% csrf_token %}
+
+        <!-- Supplier Field -->
+        <div class="col-span-6 md:col-span-1 lg:col-span-1">
+          <label
+            for="supplier"
+            class="block text-sm font-semibold leading-6 text-gray-900"
+            >Supplier</label
+          >
+          <div class="mt-2.5"></div>
+          <select
+            name="supplier"
+            id="supplier_id"
+            class="block w-full form-control rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          >
+            <option></option>
+            {% for supplier in form.supplier.field.queryset %}
+            <option value="{{ supplier.id }}" {% if supplier.id == form.initial.supplier %}selected{% endif %}>{{ supplier.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <!-- Customer Field -->
+
+        <div class="col-span-6 md:col-span-1 lg:col-span-1">
+          <label
+            for="customer"
+            class="block text-sm font-semibold leading-6 text-gray-900"
+            >Customer</label
+          >
+          <div class="mt-2.5"></div>
+          <select
+            name="customer"
+            id="customer_id"
+            class="block  form-control w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          >
+            <option></option>
+            {% for customer in form.customer.field.queryset %}
+            <option value="{{ customer.id }}" {% if customer.id == form.initial.customer %}selected{% endif %}>{{ customer.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Payemnt Field -->
+        <div class="col-span-2 md:col-span-1 lg:col-span-1">
+          <label
+            for="payment"
+            class="block text-sm font-semibold leading-6 text-gray-900"
+            >Payment</label
+          >
+          <div class="mt-2.5">
+            <input
+              type="number"
+              name="payment"
+              id="payment"
+              autocomplete="off"
+              class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              value="{% if form.instance.payment %}{{ form.instance.payment }}{% endif %}"
+            />
+          </div>
+        </div>
+        <div class="col-span-2 md:col-span-1 lg:col-span-1">
+          <label
+            for="payment_date"
+            class="block text-sm font-semibold leading-6 text-gray-900"
+            >Payement Date</label
+          >
+          <div class="mt-2.5">
+            <input
+              type="datetime-local"
+              name="payment_date"
+              id="payment_date"
+              autocomplete="off"
+              class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              value="{{ form.instance.payment_date|date:'Y-m-d\TH:i' }}"
+            />
+          </div>
+        </div>
+
+        <div class="col-span-4 flex justify-center mt-6">
+          <div class="flex items-center space-x-4">
+            <!-- Update or Save Ticket button -->
+            <button
+              type="submit"
+              class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              {% if form.instance.id %} Update Ledger {% else %} Save Ledger {% endif %}
+            </button>
+
+            <!-- Back to Tickets button -->
+            <a
+              href="{% url 'ledger_list' %}"
+              class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Back to Ledger
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#customer_id").select2(
+          placeholder: "Select a Customer",
+          allowClear: true
+          theme: "classic" 
+        );
+        $("#supplier_id").select2({
+          placeholder: "Select a Supplier",
+          allowClear: true
+          theme: "classic"
+        });
+      });
+    </script>
+    {% endblock %}

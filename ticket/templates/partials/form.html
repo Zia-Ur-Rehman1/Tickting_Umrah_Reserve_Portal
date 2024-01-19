@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="isolate bg-white px-6 py-24 sm:py-32 lg:px-8 add-bg overflow-auto">
+    {% if form.errors %}
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+      <strong class="font-bold">Oops! There was an error.</strong>
+      <ul class="list-disc ml-5">
+        {% for field in form %}
+        {% for error in field.errors %}
+        <li>{{ field.label }}: {{ error|escape }}</li>
+        {% endfor %}
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+    <div class="h-full w-full bg-blue-300 p-10 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100">
+    <div class="mx-auto max-w-2xl text-center">
+      
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{% if form.instance.id %} Update {% else %} Create {% endif %}</h1>
+    </div>
+    <form method="POST"  enctype="multipart/form-data" class="mx-auto mt-16 sm:mt-20">
+      {% csrf_token %}
+
+      {% for field in form.visible_fields %}
+      <div>
+          <label for="{{ field.name }}" class="block text-sm font-semibold leading-6 text-gray-900">{{ field.label }}</label>
+          <div class="mt-2.5">
+              <input
+                  type="{{ field.field.widget.input_type }}"
+                  name="{{ field.name }}"
+                  id="{{ field.id_for_label }}"
+                  autocomplete="off"
+                  class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  value="{{ field.value|default:'' }}">
+          </div>
+      </div>
+      
+  {% endfor %}
+      <div class="grid lg:grid-cols-4 md:grid-cols-3 gap-x-8 gap-y-6 sm:grid-cols-2">
+
+        <div class="col-span-4 flex justify-center mt-6">
+          <div class="flex items-center space-x-4">
+            <!-- Update or Save Ticket button -->
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+              {% if form.instance.id %} Update {% else %} Save  {% endif %}
+            </button>
+            
+            <a href="{% url 'ticket_create' %}" class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+              Add Ticket
+            </a>
+          </div>
+        </div>
+        
+      </div> <!--Grid End-->
+    </div>
+      </div>
+       </form>
+       
+      </div>
+  {% endblock %}
+  

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Ledger{% endblock %}
+
+{% block content %}
+
+  <div class="grid grid-cols-4 grid-rows-1 gap-4">
+    <!-- Your grid items go here -->
+    <div class="col-span-1 lg:mt-2 mt-4 sm:ml-16 sm:mt-0 sm:flex-none" >
+      <a href="{% url 'ledger_create' %}" class="inline-block my-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add Ledger</a>
+      <a href="{% url 'ticket_list' %}" class="inline-block my-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Back to Tickets</a>
+    </div>  
+    <div>
+    </div>
+</div>
+<div class="mt-8 mx-8 flow-root">
+  <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-300">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Supplier</th>
+              <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"> Customer </th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Payment</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Payment Date</th>
+              <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6"></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 bg-white">
+            {% for ledger in ledgers %}
+              <tr>
+                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ ledger.supplier.name }} </td>
+                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ledger.customer.name}} </td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ledger.payment }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ledger.payment_date }}</td>
+                <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                  <a href="{% url 'ledger_update' pk=ledger.pk %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
+                  {% comment %} <a href="{% url 'ledger_delete' pk=ticket.pk %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a> {% endcomment %}
+                
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

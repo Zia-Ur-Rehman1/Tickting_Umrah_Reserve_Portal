@@ -4,32 +4,33 @@
 {% block title %}Tickets{% endblock %}
 
 {% block content %}
-<marquee bgcolor="#cc3300" font style="bold" scrolldelay="100"><font size="5" face="Verdana"><font color="#fff966">
-  {% for item in data %}
-  PNR: {{ item.0 }} TravelDate: {{ item.1}}
-{% endfor %}
 
-</marquee>
+{% comment %} Messages {% endcomment %}
   {% if message_list %}
   {% include 'partials/info_alert.html' with message_list=message_list%}  
   {% endif %}
+  
+  {% comment %} Bg {% endcomment %}
   <div class="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]" aria-hidden="true">
     <div class="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
   </div>
   <div class="px-4 sm:px-6 lg:px-8 ">
-  <div class="sm:flex sm:items-center">
-    <div class="sm:flex-auto">
-      <h1 class="mt-2 text-base font-semibold leading-6 text-gray-900">Tickets</h1>
+    <div class="sm:flex ">
+      <div class="sm:flex-auto">
+        <h1 class="mt-2 text-base font-semibold leading-6 text-gray-900">Tickets</h1>
+        {% include 'partials/ticket_modal.html'%}
+        
+      </div>
+      <div>
+        <a href="{% url 'supplier_create' %}" class="inline-block my-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add Supplier</a>
+        <a href="{% url 'customer_create' %}" class="inline-block my-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add Customer</a>
+        <a href="{% url 'ledger_create' %}" class="inline-block my-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add Ledger</a>
+      </div>
+      <div class="lg:mt-2 mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+        <a href="{% url 'ticket_create' %}" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add Ticket</a>
+        {% include 'partials/search.html'%}
+      </div>
     </div>
-    <div class="lg:mt-2 mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-      <a href="{% url 'ticket_create' %}" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add Ticket</a>
-      {% include 'partials/search.html'%}
-    </div>
-  </div>
-  {% include 'partials/ticket_modal.html'%}
-
+    
   {% include 'partials/ticket_table.html' with tickets=tickets %}
-
-
-
 {% endblock %}

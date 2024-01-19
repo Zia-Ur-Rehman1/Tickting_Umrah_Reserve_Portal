@@ -13,9 +13,14 @@
 	</head>
 
 	<body >
+		{% include 'partials/navbar.html' with urgent_tickets=urgent_tickets %}
+
 		{% block content %}{% endblock %}
 	<script
 	src="{% static 'tw-elements/dist/js/tw-elements.umd.min.js' %}"
-	type="text/javascript"></script>
-	</body>
+	type="text/javascript">
+
+</script>
+
+</body>
 </html>
