@@ -5,7 +5,7 @@ from django.db.models import  Sum
 
 def customer_list(request):
     customers =  Customer.objects.annotate(total_purchase=Sum('ticket__sale')).values('id', 'name', 'total_purchase', 'opening_balance')
-    return render(request, 'customer_list.html', {'customers': customers})
+    return render(request, 'customer_list.html', {'customers': customers, 'model_name': 'customer'})
 
 def customer_create(request):
     if request.method == 'POST':
@@ -27,10 +27,3 @@ def customer_update(request, pk):
     else:
         form = CustomerForm(instance=customer)
     return render(request, 'customer_form.html', {'form': form})
-
-def customer_delete(request, pk):
-    customer = get_object_or_404(Customer, pk=pk)
-    if request.method == 'POST':
-        customer.delete()
-        return redirect('customer_list')
-    return render(request, 'customer_delete.html', {'customer': customer})

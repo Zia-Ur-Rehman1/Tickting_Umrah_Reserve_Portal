@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from ticket.views import ticket_list, ticket_create, ticket_update, ticket_delete, generateCSV, search, ledger_create, ledger_list,ledger_update,supplier_list,supplier_create, supplier_update, customer_create, customer_list,customer_update, supplier_ledger
+from ticket.views import  delete_record, ticket_list, ticket_create, ticket_update,  generateCSV, search, ledger_create, ledger_list,ledger_update,supplier_list,supplier_create, supplier_update, customer_create, customer_list,customer_update, supplier_ledger
 from ticket.csv_manipulation import upload_csv
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,7 +25,7 @@ urlpatterns = [
     path('tickets/csv', generateCSV, name='get_csv'),
     path('tickets/create/', ticket_create, name='ticket_create'),
     path('tickets/<int:pk>/update/', ticket_update, name='ticket_update'),
-    path('tickets/<int:pk>/delete/', ticket_delete, name='ticket_delete'),
+    path('delete/<str:model_name>/<int:pk>/delete/', delete_record, name='delete_record'),
     path('tickets/search/', search, name='search'),
     path('ledgers/', ledger_list, name='ledger_list'),
     path('ledgers/create/', ledger_create, name='ledger_create'),
@@ -42,4 +42,5 @@ urlpatterns = [
     
     path('tickets/upload/', upload_csv, name='upload_file'),
     path("__debug__/", include("debug_toolbar.urls")),
+    
 ]

@@ -1,5 +1,4 @@
-<nav
-  class="flex-no-wrap relative flex w-full items-center justify-between bg-[#FBFBFB] py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
+<nav class="fixed top-0 left-0 w-full flex items-center justify-between bg-[#FBFBFB] py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 z-10 lg:flex-wrap lg:justify-start lg:py-4">
   <div class="flex w-full flex-wrap items-center justify-between px-3">
     <!-- Hamburger button for mobile view -->
     <button
@@ -79,12 +78,42 @@
             >Customers</a
           >
         </li>
+        <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
+          <div class="relative ml-4 flex-shrink-0 group">
+         <span class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400">Create</span>   
+            <!-- Dropdown menu, show/hide based on menu state. -->
+            <div class="absolute right-100 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none opacity-0 scale-95 transition-transform duration-300 transform -translate-y-2 group-hover:opacity-100 group-hover:scale-100" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                <!-- Active: "bg-gray-100", Not Active: "" -->
+
+                <a href="{% url 'ticket_create' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Ticket</a>
+                <a href="{% url 'supplier_create' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Supplier</a>
+                <a href="{% url 'customer_create' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Customer</a>
+                <a href="{% url 'ledger_create' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Ledger</a>
+                
+              </div>
+        </div>
+        </li>
       </ul>
     </div>
 
     <!-- Right elements -->
+  <form action="{% url 'search' %}" method="get">
     <div class="relative flex items-center">
-     
+      <div class="flex flex-1 justify-center px-2 lg:ml-6 lg:justify-end">
+        <div class="w-full max-w-lg lg:max-w-xs">
+          <label for="search" class="sr-only">Search</label>
+          <div class="relative">
+            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <input id="search" name="query" class="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Search" type="search">
+          </div>
+        </div>
+      </div>
+    </form>
+
       <!-- Container with two dropdown menus -->
       <div
         class="relative"

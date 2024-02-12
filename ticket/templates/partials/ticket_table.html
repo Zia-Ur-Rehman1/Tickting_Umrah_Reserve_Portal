@@ -26,7 +26,14 @@
                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ ticket.created_at|date:"d-M" }}</td>
                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ ticket.pnr }}</td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.sector }}</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.travel_date|date:"d-M" }}</td>
+                {% if ticket.travel_date %}
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ ticket.travel_date|date:"d-M" }}</td>
+                {% else %}
+                <td class="whitespace-nowrap px-3 py-4 text-sm">
+                  <span class="bg-red-400 text-white">VOID</span>
+                </td>
+                
+                {% endif %}
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.airline }}</td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.supplier.name }}</td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.purchase }}</td>
@@ -36,7 +43,8 @@
                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
 
                   <a href="{% url 'ticket_update' pk=ticket.pk %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
-                  <a href="{% url 'ticket_delete' pk=ticket.pk %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
+                  <a href="{% url 'delete_record' pk=ticket.pk model_name='ticket' %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
+              
                 </td>
               </tr>
             {% endfor %}

@@ -3,15 +3,5 @@
 {% block title %}Supplier{% endblock %}
 
 {% block content %}
-
-  <div class="grid grid-cols-4 grid-rows-2 gap-4">
-    <!-- Your grid items go here -->
-    <div class="col-span-1 lg:mt-2 mt-4 sm:ml-16 sm:mt-0 sm:flex-none" >
-      <a href="{% url 'supplier_create' %}" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add Supplier</a>
-    </div>
-    
-
-  <!-- Add more items as needed -->
-</div>
-{% include 'partials/table_input_fields.html' with  data=suppliers %}
+{% include 'partials/table_input_fields.html' with  data=suppliers model_name=model_name %}
 {% endblock %}

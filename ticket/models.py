@@ -34,7 +34,14 @@ class Ticket(models.Model):
     sale = models.PositiveIntegerField( blank=False, null=False, default=0)
     purchase = models.PositiveIntegerField( blank=False, null=False, default=0 )
     def __str__(self):
-        return f"{self.created_at} - {self.pnr} - {self.airline} - {self.travel_date} - {self.supplier} - {self.customer} - {self.passenger}"
+        return (
+        f"Ticket with PNR: {self.airline}<br>"
+        f"Travel Date: {self.travel_date}<br>"
+        f"Supplier: {self.supplier}<br>"
+        f"Customer: {self.customer}<br>"
+        f"Passenger: {self.passenger}"
+        )
+
         
 class Ledger(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete=models.PROTECT, blank=True, null=True)

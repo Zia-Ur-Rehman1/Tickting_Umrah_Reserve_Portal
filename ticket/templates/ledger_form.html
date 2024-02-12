@@ -1,8 +1,5 @@
 {% extends "base.html" %} {% block content %}
-<link
-  href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-  rel="stylesheet"
-/>
+
 <div class="isolate bg-white px-6 py-24 sm:py-32 lg:px-8 add-bg">
   {% if form.errors %}
   <div
@@ -131,24 +128,22 @@
         </div>
       </form>
     </div>
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.min.js"
-      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
     <script>
       $(document).ready(function () {
-        $("#customer_id").select2(
-          placeholder: "Select a Customer",
-          allowClear: true
-          theme: "classic" 
-        );
-        $("#supplier_id").select2({
-          placeholder: "Select a Supplier",
-          allowClear: true
-          theme: "classic"
-        });
+          $("#customer_id").select2({
+              placeholder: "Select a Customer",
+              allowClear: true,
+              theme: "classic"
+          });
+  
+          $("#supplier_id").select2({
+              placeholder: "Select a Supplier",
+              allowClear: true,
+              theme: "classic"
+          });
       });
-    </script>
+  </script>
+  
     {% endblock %}

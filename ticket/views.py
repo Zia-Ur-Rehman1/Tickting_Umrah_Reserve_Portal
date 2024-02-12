@@ -12,16 +12,17 @@ from .ledger_views import *
 from .supplier_views import *
 from .customer_views import *
 from .csv_manipulation import *
-
+from django.views import View
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 activate(settings.TIME_ZONE)
 
 def ticket_list(request):
-    tickets = Ticket.objects.all()
+    tickets = Ticket.objects.all().order_by('-created_at')
     urgent_tickets = tickets.filter(travel_date__range=(timezone.now(),timezone.now() + timedelta(days=3))).values_list('pnr','travel_date', 'customer', 'supplier')
 
     message_list = messages.get_messages(request)
     return render(request, 'ticket_list.html', {'tickets': tickets, 'message_list': message_list, 'urgent_tickets': urgent_tickets})
-
 
 
 def ticket_create(request):
@@ -56,12 +57,21 @@ def ticket_update(request, pk):
         form = TicketForm(instance=ticket)
     return render(request, 'ticket_form.html', {'form': form})
 
-def ticket_delete(request, pk):
-    ticket = get_object_or_404(Ticket, pk=pk)
+def delete_record(request, pk, model_name):
+    model_mapping = {
+        'supplier': Supplier,
+        'customer': Customer,
+        'ledger': Ledger,
+        'ticket': Ticket,
+    }
+    model = model_mapping.get(model_name)
+
+    obj = get_object_or_404(model, pk=pk)
+    model_list = model_name + '_list'
     if request.method == 'POST':
-        ticket.delete()
-        return redirect('ticket_list')
-    return render(request, 'ticket_confirm_delete.html', {'ticket': ticket})
+        obj.delete()
+        return redirect(model_list)
+    return render(request, 'obj_confirm_delete.html', {'obj': obj, 'model_name': model_name, 'model_list': model_list})
 
 
 def search(request):
@@ -76,5 +86,3 @@ def search(request):
     else:
         messages.warning(request, 'No matching tickets found.')
         return redirect('ticket_list')
-
-

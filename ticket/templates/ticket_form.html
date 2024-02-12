@@ -60,7 +60,7 @@
         <!-- Supplier Field -->
         <div class="col-span-6 md:col-span-1 lg:col-span-1">
           <label
-            for="supplier"
+            for="supplier_id"
             class="block text-sm font-semibold leading-6 text-gray-900"
             >Supplier</label
           >
@@ -80,7 +80,7 @@
 
         <div class="col-span-6 md:col-span-1 lg:col-span-1">
           <label
-            for="customer"
+            for="customer_id"
             class="block text-sm font-semibold leading-6 text-gray-900"
             >Customer</label
           >
@@ -150,5 +150,22 @@
      </form>
      
     </div>
-    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+          $("#customer_id").select2({
+              placeholder: "Select a Customer",
+              allowClear: true,
+              theme: "classic"
+          });
+  
+          $("#supplier_id").select2({
+              placeholder: "Select a Supplier",
+              allowClear: true,
+              theme: "classic"
+          });
+      });
+  </script>
+  
 {% endblock %}

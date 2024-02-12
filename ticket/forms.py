@@ -1,7 +1,6 @@
 # forms.py
 from django import forms
 from .models import Ticket, Customer, Supplier, Ledger
-from django_select2.forms import ModelSelect2Widget
 class TicketForm(forms.ModelForm):
     airline= forms.CharField( required=False)
     passenger = forms.CharField( required=False)

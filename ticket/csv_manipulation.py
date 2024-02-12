@@ -1,12 +1,15 @@
 import csv
 from datetime import datetime
+
+from django.db import IntegrityError
 from ticket.forms import CsvGenerationForm, UploadForm
 from ticket.models import Supplier, Ticket, Customer
 from django.http import HttpResponse
 from django.contrib import messages
 from django.shortcuts import  redirect, render
-import pdb
-import io
+import pandas as pd
+import numpy as np
+from django.db.models import Q
 def generateCSV(request):
     if request.method == 'POST':
   
@@ -49,89 +52,134 @@ def generate_csv(tickets):
         ])
 
     return response
-def process_csv_data(file):
-    file = io.TextIOWrapper(file, encoding='utf-8')
-    reader = csv.reader(file)
-    for row in reader:
-        if row is None:
-            continue
-        date = parse_date(row[0])
-        passenger_name = row[1]
-        sector = row[2]
-        pnr = row[3]
-        supplier_name = row[4]
-        customer_name = row[6]
-        airline = row[7]
-        travel_date = parse_date(row[8])
-        deal = row[9]
-        purchase = row[11]
-        ticket = Ticket.objects.filter(pnr=pnr).first()
-        if not ticket:
-            supplier, _ = Supplier.objects.get_or_create(name=supplier_name)
-            customer, _ = Customer.objects.get_or_create(name=customer_name)
+def process_main_list(df):
+    
+    for index,row in df.iterrows():
+        current_date = row['DATE']
+        pnr ='' if pd.isna(str(row['PNR/V#'])) else str(row['PNR/V#'])
+        sector ='' if pd.isna(str(row['SECTOR'])) else str(row['SECTOR'])
+        passenger ='' if pd.isna(str(row['PASSENGER NAME'])) else str(row['PASSENGER NAME'])
+        travel_date =None if pd.isna(row['TRAVEL DATE']) else row['TRAVEL DATE']  
+        airline ='' if pd.isna(str(row['AIR LINE'])) else str(row['AIR LINE'])
+        sale = int(row['DEAL'])
+        purchase = int(row['PURCHASE'])
+
+    # Get or create the Supplier and Customer objects
+        supplier, _ = Supplier.objects.get_or_create(name=row['SUPPLIER'])
+        customer, _ = Customer.objects.get_or_create(name=row['CUSTOMER'])
+
+    # Get the Ticket object based on PNR
         try:
-            ticket = Ticket.objects.create(
-                created_at=date,
-                passenger=passenger_name if passenger_name else None,
-                sector=sector if sector else None,
-                pnr=pnr,
-                supplier=supplier,
-                customer=customer,
-                airline=airline if airline else None,
-                travel_date=travel_date if travel_date and travel_date != "VOID" else None,
-                sale=deal if deal else 0,
-                purchase=purchase if purchase else 0
-            )
+            ticket, created = Ticket.objects.get_or_create(pnr=pnr,
+                defaults={
+                'created_at': current_date,
+                'sector': sector,
+                'passenger': passenger,
+                'travel_date': travel_date,
+                'airline': airline,
+                'supplier': supplier,
+                'customer': customer,
+                'sale': sale,
+                'purchase': purchase,
+            })
+        except  IntegrityError:
+            print(f"PNR: {pnr}")
+
+    # If the ticket already exists, update its values
+        if not created:
+            ticket.created_at = current_date
+            ticket.sector = sector
+            ticket.passenger = passenger
+            ticket.travel_date = travel_date
+            ticket.airline = airline
+            ticket.supplier = supplier
+            ticket.customer = customer
+            ticket.sale = sale
+            ticket.purchase = purchase
+            ticket.pnr = pnr
             ticket.save()
-    # Continue with the rest of the code if the Ticket object creation is successful
-    # ...
-        except Exception as e:
-            # Handle the exception appropriately
-            print(f"An error occurred: {str(e)}")
-            print(f"Error occurred for the following values: passenger_name={passenger_name}, sector={sector}, pnr={pnr}, supplier={supplier}, customer={customer}, airline={airline}, travel_date={travel_date}, deal={deal}, purchase={purchase}")
                 # Save the Ticket instance
-def parse_date(date_str):
-    # Get the current year
-    current_year = datetime.now().year
-    
-    # Append the current year to the date string
-    date_str_with_year = f"{date_str}-{current_year}"
-    
-    # Define the format of the date string
-    date_format = '%d-%b-%Y'  # Example format: '1-Jan-2022'
-    
-    try:
-        # Parse the date string into a datetime object
-        parsed_date = datetime.strptime(date_str_with_year, date_format)
-        return parsed_date
-    except ValueError:
-        # Handle the case where the date string is not in the expected format
-        return None
 def upload_csv(request):
     if request.method == "POST":
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
             file = request.FILES["file"]
-            
+            df = hasnain_travels_mainlist_csv(file)
+            process_main_list(df)
             # process_csv_data(file)
-            match_csvs(file)
+            # match_csvs(file)
             # Handle any further actions or redirect to a success page
     else:
         form = UploadForm()
     return render(request, "upload.html", {"form": form})
 
-def match_csvs(file):
-    file = io.TextIOWrapper(file, encoding='utf-8')
-    reader = csv.reader(file)
-    for row in reader:
-        if row is None or row[2] is None or row[4] == '-':
-            continue
-        values = row[3].split()
-        if len(values) >= 8:
-            pnr = row[3].split()[8]
-            ticket = Ticket.objects.filter(pnr=pnr).first()
-            if ticket:
-                if ticket.purchase == round(float(row[4])):
-                    continue
-                else:
-                    print(f"PNR {ticket.pnr} matched but value mismatch: {ticket.purchase} != {row[4]}")
+def hasnain_travels_mainlist_csv(file):
+    df= pd.read_csv(file, skiprows=2, usecols=list(range(12))).dropna(how='all')
+    df =df.replace(np.nan, '')
+    df['PURCHASE'] = pd.to_numeric(df['PURCHASE'].str.replace(',', ''), errors='coerce').fillna(0).astype(int)
+    df['DEAL'] = pd.to_numeric(df['DEAL'].str.replace(',', ''), errors='coerce').fillna(0).astype(int)
+    df = df.map(lambda x: x.strip() if isinstance(x, str) else x)
+
+# df.rename(columns={'N.CHOUDHARY TICKETS': 'Purchase'}, inplace=True)
+    current_year = pd.Timestamp.now().year
+    df['DATE'] = pd.to_datetime(df['DATE'] + '-' + str(current_year), errors='coerce')
+    df['TRAVEL DATE'] = df['TRAVEL DATE'].replace({'VOID': '','void': ''})
+    df['TRAVEL DATE'] = df['TRAVEL DATE'].str.split('/').str[0]
+    df['TRAVEL DATE'] = pd.to_datetime(df['TRAVEL DATE'] + '-' + str(current_year), errors='coerce')
+    return df
+
+    
+def choudry_travels_csv(file):
+    df2= pd.read_csv('CT.csv').dropna(how='all')
+    df2['PNR'] = df2['Narration'].apply(lambda x: (x.split('-')[3].strip() if pd.notna(x) and 'VISA VOUCHER' not in x and len(x.split('-')) >= 4 else None) 
+                                              or (x.split('-')[-1].strip() if pd.notna(x) and 'VISA VOUCHER' in x else None))
+
+    df2['Debit'] = pd.to_numeric(df2['Debit'], errors='coerce')
+    df2['Credit'] = pd.to_numeric(df2['Credit'], errors='coerce')
+    result_df2 = df2.groupby('PNR', as_index=False).agg({'Debit': 'sum', 'Credit': 'sum'})
+    result_df2['Balance'] = result_df2['Debit'] + result_df2['Credit']
+    result_df2 = result_df2[['PNR', 'Balance']]
+    result_df2['PNR'] = result_df2['PNR'].str.strip()
+def compare_csv(HT,CT):
+    result_df = df.groupby('PNR')['Purchase'].sum().reset_index()
+    
+    merged_df = result_df.merge(result_df2, left_on='PNR', right_on='PNR', how='inner')
+    matched_rows = merged_df[merged_df['PNR'] == merged_df['PNR']]
+    matched_rows['Purchase'] = pd.to_numeric(matched_rows['Purchase'], errors='coerce')
+    matched_rows['Balance'] = pd.to_numeric(matched_rows['Balance'], errors='coerce')
+    mismatched_rows = matched_rows[abs(matched_rows['Purchase'] - matched_rows['Balance']) > 5]
+    mismatched_data = mismatched_rows[['PNR', 'Purchase', 'Balance']]
+    mismatched_data.to_csv('mismatched_data.csv', index=False)
+    
+def compare_pnr(HT,CT):
+    merged_result = pd.merge(result_df, result_df2, on='PNR', how='right', indicator=True)
+
+    missing_pnr_result_df2 = merged_result[merged_result['_merge'] == 'right_only'][result_df2.columns]
+    missing_pnr_result_df2.to_csv('missing_pnr_result_df2.csv', index=False)
+
+def process_name(name):
+    parts = name.replace('MR', '').replace('MRS', '').split()
+    if len(parts) == 2:
+        return ' '.join(parts[::-1])
+    elif len(parts) == 3:
+        return ' '.join(parts[-2:][::-1] + [parts[0]])
+    else:
+        return name
+# def travel_point(file):
+# df = pd.read_csv('TP.csv', skipinitialspace=True, usecols=[2,6], skiprows=1).dropna(how='all')
+# df = df[df['TRAVEL POINT TICKETS'].notna()]
+# df2 = pd.read_csv('TP2.csv', skipinitialspace=True, usecols=[2,6], skiprows=1).dropna(how='all')
+# df2 = df2[df2['TRAVEL POINT TICKETS'].notna()]
+# result_df = pd.concat([df, df2], ignore_index=True)
+# result_df.rename(columns={'TRAVEL POINT TICKETS': 'Purchase'}, inplace=True)
+# result_df.rename(columns={'pax': 'Passenger'}, inplace=True)
+# result_df = result_df[~result_df['Passenger'].str.contains('BALANCE')]
+# result_df['Purchase'] = pd.to_numeric(result_df['Purchase'], errors='coerce').abs()
+
+# df3 = pd.read_csv('TPorg.csv', skipinitialspace=True, usecols=[4,10], skiprows=12).dropna(how='all')
+# df3 = df3.dropna()
+# end_df = pd.concat([result_df, df3], axis=1)
+
+# print(f"HT: {result_df.to_string()} TP:  {df3.to_string()}")
+# df3['Passenger'] = df['Passenger'].apply(process_name)
+
