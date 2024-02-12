@@ -6,10 +6,8 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
     <caption class="p-5 text-lg  font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-            
-           <span class='text-base'>Supplier Name:</span>
-           
-           <span class=''>{{ supplier.name }}</span>
+          <span class='text-base'>Supplier Name:</span>
+          <span class=''>{{ supplier.name }}</span>
   </caption>
     
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -35,7 +33,7 @@
                 Payment Date
               </th>
               <th scope="col" class="px-6 py-3">
-                Total
+                Balance
               </th>
 
 
@@ -53,10 +51,7 @@
                       <td class="px-6 py-4 bg-red-400">{{ entry.created_at|date:"d M h:i a" }}</td>
                       <td class="px-6 py-4"></td> 
                       <td class="px-6 py-4"></td> 
-                      
-                      {% with total=total|add:entry.purchase %}
-                      <td class="px-6 py-4 text-black">Rs: {{total}}</td>
-                      {% endwith %}
+                      <td class="px-6 py-4 text-black">Rs: {{entry.total}}</td>  
                     {% else %}
                       {# Ledger Data #}
                       <td class="px-6 py-4"></td>  {# Leave PNR cell empty for Ledger #}
@@ -65,9 +60,7 @@
                       <td class="px-6 py-4"></td>  
                       <td class="px-6 py-4 bg-green-400">Rs: {{entry.payment}}</td>  
                       <td class="px-6 py-4 bg-green-500">{{ entry.payment_date|date:"d M h:i a" }}</td>
-                      {% with total=total|subtract:entry.payment %}
-                      <td class="px-6 py-4 text-black">Rs: {{total}}</td>
-                      {% endwith %}
+                      <td class="px-6 py-4 text-black">Rs: {{entry.total}}</td>  
 
                     {% endif %}
               </tr>

@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'theme',
     'django_browser_reload',
     "debug_toolbar",
-    'django_htmx',
 ]
 
 MIDDLEWARE = [
