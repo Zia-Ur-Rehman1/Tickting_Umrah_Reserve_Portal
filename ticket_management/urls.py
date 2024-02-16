@@ -38,7 +38,7 @@ urlpatterns = [
     path('customers/<int:pk>/update/', customer_update, name='customer_update'),
     path('customers/<int:pk>/delete/', customer_update, name='customer_delete'),
     path('customers/', customer_list, name='customer_list'),
-    path('ledgers/supplier/<int:pk>', supplier_ledger, name='supplier_ledger'),
+    path('ledgers/supplier/<int:pk>/<str:model_name>', supplier_ledger, name='supplier_ledger'),
     
     path('tickets/upload/', upload_csv, name='upload_file'),
     path("__debug__/", include("debug_toolbar.urls")),

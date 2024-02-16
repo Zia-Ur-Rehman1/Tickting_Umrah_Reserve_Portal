@@ -6,7 +6,7 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
     <caption class="p-5 text-lg  font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-          <span class='text-base'>Supplier Name:</span>
+          <span class='text-base'>Name:</span>
           <span class=''>{{ supplier.name }}</span>
   </caption>
     
@@ -45,10 +45,10 @@
               <tr class="bg-white text-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     {% if entry.pnr %}
                       {# Ticket Data #}
-                      <td class="px-6 py-4 bg-red-400">{{ entry.pnr }}</td>
-                      <td class="px-6 py-4 bg-red-400">{{ entry.passenger }}</td>
+                      <td class="px-6 py-4 ">{{ entry.pnr }}</td>
+                      <td class="px-6 py-4 ">{{ entry.passenger }}</td>
                       <td class="px-6 py-4 bg-red-500">Rs: {{ entry.purchase }}</td>
-                      <td class="px-6 py-4 bg-red-400">{{ entry.created_at|date:"d M h:i a" }}</td>
+                      <td class="px-6 py-4 ">{{ entry.created_at|date:"d M h:i a" }}</td>
                       <td class="px-6 py-4"></td> 
                       <td class="px-6 py-4"></td> 
                       <td class="px-6 py-4 text-black">Rs: {{entry.total}}</td>  
