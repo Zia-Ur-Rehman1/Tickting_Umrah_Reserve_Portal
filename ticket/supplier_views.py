@@ -25,5 +25,5 @@ def supplier_update(request, pk):
             return redirect('supplier_list')
     else:
         form = SupplierForm(instance=supplier)
-    return render(request, 'supplier_list.html', {'form': form})
+    return render(request, 'supplier_form.html', {'form': form})
 

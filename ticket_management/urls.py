@@ -14,9 +14,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
-from ticket.views import  delete_record, ticket_list, ticket_create, ticket_update,  generateCSV, search, ledger_create, ledger_list,ledger_update,supplier_list,supplier_create, supplier_update, customer_create, customer_list,customer_update, supplier_ledger
+from ticket.views import  delete_record, ticket_list, ticket_create, ticket_update,  generateCSV, search, ledger_create, ledger_list,ledger_update,supplier_list,supplier_create, supplier_update, customer_create, customer_list,customer_update, supplier_ledger, urgent_tickets
 from ticket.csv_manipulation import upload_csv
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +25,7 @@ urlpatterns = [
     path('tickets/', ticket_list, name='ticket_list'),
     path('tickets/csv', generateCSV, name='get_csv'),
     path('tickets/create/', ticket_create, name='ticket_create'),
+    path('tickets/urgent/', urgent_tickets, name='urgent_tickets'),
     path('tickets/<int:pk>/update/', ticket_update, name='ticket_update'),
     path('delete/<str:model_name>/<int:pk>/delete/', delete_record, name='delete_record'),
     path('tickets/search/', search, name='search'),
@@ -44,3 +46,6 @@ urlpatterns = [
     path("__debug__/", include("debug_toolbar.urls")),
     
 ]
+if settings.DEBUG:
+    from django.conf.urls.static import static
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -53,7 +53,7 @@ Now we need to add tailwind elements like popup modal and dropdown and alerts et
  in settings.py 
  STATICFILES_DIRS = [
   BASE_DIR / "theme/static",
-  BASE_DIR.parent / "Husnain_Travels/node_modules",
+  BASE_DIR.parent / "/node_modules",
 ]
 
 

@@ -4,7 +4,7 @@ from ticket_management import settings
 from .models import Ticket
 from .forms import TicketForm
 from django.utils.timezone import activate
-from django.db.models import Q
+from django.db.models import Q, F, ExpressionWrapper, fields
 from django.contrib import messages
 from datetime import timedelta
 from django.utils import timezone
@@ -12,14 +12,11 @@ from .ledger_views import *
 from .supplier_views import *
 from .customer_views import *
 from .csv_manipulation import *
-from django.views import View
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 activate(settings.TIME_ZONE)
 
 def ticket_list(request):
     tickets = Ticket.objects.all().order_by('-created_at')
-    urgent_tickets = tickets.filter(travel_date__range=(timezone.now(),timezone.now() + timedelta(days=3))).values_list('pnr','travel_date', 'customer', 'supplier')
+    urgent_tickets = tickets.filter(travel_date__range=(timezone.now(),timezone.now() + timedelta(days=3))).count()
 
     message_list = messages.get_messages(request)
     return render(request, 'ticket_list.html', {'tickets': tickets, 'message_list': message_list, 'urgent_tickets': urgent_tickets})
@@ -73,7 +70,16 @@ def delete_record(request, pk, model_name):
         return redirect(model_list)
     return render(request, 'obj_confirm_delete.html', {'obj': obj, 'model_name': model_name, 'model_list': model_list})
 
-
+def urgent_tickets(request):
+    urgent_tickets = Ticket.objects.filter(travel_date__range=(timezone.now(),timezone.now() + timedelta(days=3)))
+    data = urgent_tickets.annotate(
+    days=ExpressionWrapper(
+        F('travel_date') - timezone.now(),
+        output_field=fields.DurationField()
+    )
+    )
+    return render(request, 'urgent_tickets.html', {'tickets': data})
+    
 def search(request):
     query = request.GET.get('query')
     results = Ticket.objects.filter(

@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Ticket, Supplier, Ledger, Customer
 from django.db.models import Q
-from django.db.models.functions import Coalesce
 from .forms import LedgerForm
 
 def ledger_list(request):
@@ -23,6 +22,7 @@ def ledger_update(request, pk):
     if request.method == 'POST':
         form = LedgerForm(request.POST, instance=ledger)
         if form.is_valid():
+            form.cleaned_data.get('supplier')
             form.save()
             return redirect('ledger_list')
     else:
@@ -35,7 +35,6 @@ def supplier_ledger(request, pk, model_name):
         'customer': Customer,
     }
     model = model_mapping.get(model_name)
-    filter_condition = Q()
     obj = get_object_or_404(model, pk=pk)
 
     combined_data = []
@@ -64,5 +63,5 @@ def supplier_ledger(request, pk, model_name):
 
         # Add the total to the current entry
         entry['total'] = total
-
-    return render(request, 'supplier_ledger.html', {'data': combined_data, 'obj': obj} )
+    
+    return render(request, 'supplier_ledger.html', {'data': combined_data, 'obj': obj, 'total_balance': combined_data[-1]['total']} )
