@@ -1,6 +1,4 @@
 import csv
-from datetime import datetime
-
 from django.db import IntegrityError
 from ticket.forms import CsvGenerationForm, UploadForm
 from ticket.models import Supplier, Ticket, Customer

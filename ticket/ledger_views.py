@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Ticket, Supplier, Ledger, Customer
 from django.db.models import Q
 from .forms import LedgerForm
-
 def ledger_list(request):
     ledgers = Ledger.objects.all()
     return render(request, 'ledger_list.html', {'ledgers': ledgers })
@@ -30,30 +29,40 @@ def ledger_update(request, pk):
     return render(request, 'ledger_form.html', {'form': form})
 
 def supplier_ledger(request, pk, model_name):
+    obj = get_obj(pk, model_name)
+    combined_data = ledger_generate(obj, model_name)
+    return render(request, 'supplier_ledger.html', {'data': combined_data, 'obj': obj, 'total_balance': combined_data[-1]['total']} )
+
+def get_obj(pk, model_name):
     model_mapping = {
         'supplier': Supplier,
         'customer': Customer,
     }
     model = model_mapping.get(model_name)
     obj = get_object_or_404(model, pk=pk)
-
+    return obj
+def ledger_generate(obj, model_name, start_at=None, end_at=None):
     combined_data = []
 
     filter_condition = Q()
     filter_condition &= Q(supplier=obj) if model_name == 'supplier' else Q(customer=obj)
     # Add more conditions for other models if needed
-    ticket_data = Ticket.objects.filter(filter_condition).values(
-        'pnr', 'purchase', 'created_at', 'passenger')
-    ledger_data = Ledger.objects.filter(filter_condition).values(
-        'payment', 'payment_date')
+    if start_at:
+        ticket_data = Ticket.objects.filter(filter_condition, created_at__range=(start_at,end_at)).values(
+            'pnr', 'purchase', 'created_at', 'passenger', 'id')
+        ledger_data = Ledger.objects.filter(filter_condition, payment_date__range=(start_at,end_at)).values(
+            'payment', 'payment_date', 'id')
+    else:
+        ticket_data = Ticket.objects.filter(filter_condition).values(
+            'pnr', 'purchase', 'created_at', 'passenger', 'id')
+        ledger_data = Ledger.objects.filter(filter_condition).values(
+            'payment', 'payment_date', 'id')
     data = list(ticket_data) + list(ledger_data)
 
     combined_data.extend(data)
     combined_data = sorted(
     combined_data,
-    key=lambda x: x.get('created_at') or x.get('payment_date', ''),
-    reverse=True
-    )
+    key=lambda x: x.get('created_at') or x.get('payment_date', '')    )
     total = obj.opening_balance
     for entry in combined_data:
         if 'purchase' in entry:
@@ -63,5 +72,5 @@ def supplier_ledger(request, pk, model_name):
 
         # Add the total to the current entry
         entry['total'] = total
-    
-    return render(request, 'supplier_ledger.html', {'data': combined_data, 'obj': obj, 'total_balance': combined_data[-1]['total']} )
+
+    return combined_data

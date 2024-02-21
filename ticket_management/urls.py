@@ -17,12 +17,14 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
-from ticket.views import  delete_record, ticket_list, ticket_create, ticket_update,  generateCSV, search, ledger_create, ledger_list,ledger_update,supplier_list,supplier_create, supplier_update, customer_create, customer_list,customer_update, supplier_ledger, urgent_tickets
+from ticket.views import  *
 from ticket.csv_manipulation import upload_csv
+from ticket.pdf_generation import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
     path('tickets/', ticket_list, name='ticket_list'),
+    path('', ticket_list, name='ticket_list'),
     path('tickets/csv', generateCSV, name='get_csv'),
     path('tickets/create/', ticket_create, name='ticket_create'),
     path('tickets/urgent/', urgent_tickets, name='urgent_tickets'),
@@ -32,16 +34,14 @@ urlpatterns = [
     path('ledgers/', ledger_list, name='ledger_list'),
     path('ledgers/create/', ledger_create, name='ledger_create'),
     path('ledgers/<int:pk>/update/', ledger_update, name='ledger_update'),
-    # path('ledgers/<int:pk>/delete/', ledger_delete, name='ledger_delete'),
     path('suppliers/', supplier_list, name='supplier_list'),
     path('suppliers/create/', supplier_create, name='supplier_create'),
     path('suppliers/<int:pk>/update/', supplier_update, name='supplier_update'),
     path('customers/create/', customer_create, name='customer_create'),
     path('customers/<int:pk>/update/', customer_update, name='customer_update'),
-    path('customers/<int:pk>/delete/', customer_update, name='customer_delete'),
     path('customers/', customer_list, name='customer_list'),
     path('ledgers/supplier/<int:pk>/<str:model_name>', supplier_ledger, name='supplier_ledger'),
-    
+    path('generate_pdf', generatePDF, name='generate_pdf'),
     path('tickets/upload/', upload_csv, name='upload_file'),
     path("__debug__/", include("debug_toolbar.urls")),
     

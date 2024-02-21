@@ -3,7 +3,7 @@ from .models import  Supplier
 from .forms import  SupplierForm
 from django.db.models import  Sum
 def supplier_list(request):
-    suppliers =  Supplier.objects.annotate(total_purchase=Sum('ticket__purchase')).values('id', 'name', 'total_purchase', 'opening_balance')
+    suppliers =  Supplier.objects.annotate(total_purchase=Sum('ticket__purchase'), total_payment=Sum('ledger__payment'))
     return render(request, 'supplier_list.html', {'suppliers': suppliers, 'model_name': 'supplier' })
 
 def supplier_create(request):

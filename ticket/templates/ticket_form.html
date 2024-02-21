@@ -16,9 +16,6 @@
     <div class="h-full w-full bg-blue-300 p-10 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100">
     <div class="mx-auto max-w-2xl text-center">
       <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{% if form.instance.id %} Update Ticket {% else %} Create Ticket {% endif %}</h1>
-      <a href="{% url 'supplier_create' %}" class="inline-block my-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add Supplier</a>
-      <a href="{% url 'customer_create' %}" class="inline-block my-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add Customer</a>
-
     </div>
     
     <form  method="POST" enctype="multipart/form-data" class="mx-auto mt-16  sm:mt-20">

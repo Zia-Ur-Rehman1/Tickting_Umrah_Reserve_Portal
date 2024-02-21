@@ -4,7 +4,7 @@ from .forms import CustomerForm
 from django.db.models import  Sum
 
 def customer_list(request):
-    customers =  Customer.objects.annotate(total_purchase=Sum('ticket__sale')).values('id', 'name', 'total_purchase', 'opening_balance')
+    customers =  Customer.objects.annotate(total_purchase=Sum('ticket__sale'), total_payment=Sum('ledger__payment'))
     return render(request, 'customer_list.html', {'customers': customers, 'model_name': 'customer'})
 
 def customer_create(request):

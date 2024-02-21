@@ -33,7 +33,7 @@
       <!-- Logo -->
       <a
         class="mb-4 ml-2 mr-5 mt-3 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0"
-        href="#">
+        href="{% url 'ticket_list' %}">
         <img
           src="/static/images/HT.png"
           class="h-7 w-auto flex-shrink-0"
@@ -80,10 +80,19 @@
           >
         </li>
         <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
+          <!-- Dashboard link -->
+          <a
+            class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
+            href="{% url 'generate_pdf' %}"
+            data-te-nav-link-ref
+            >Get PDF</a
+          >
+        </li>
+        <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
           <div class="relative ml-4 flex-shrink-0 group">
          <span class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400">Create</span>   
             <!-- Dropdown menu, show/hide based on menu state. -->
-            <div class="absolute right-100 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none opacity-0 scale-95 transition-transform duration-300 transform -translate-y-2 group-hover:opacity-100 group-hover:scale-100" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+            <div class="absolute right-100 z-10 mt-2 w-28 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none opacity-0 scale-95 transition-transform duration-300 transform -translate-y-2 group-hover:opacity-100 group-hover:scale-100" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                 <!-- Active: "bg-gray-100", Not Active: "" -->
 
                 <a href="{% url 'ticket_create' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Ticket</a>
@@ -118,19 +127,12 @@
       <!-- Container with two dropdown menus -->
       <div
         class="relative"
-        data-te-dropdown-ref
-        data-te-dropdown-alignment="end">
-        <!-- First dropdown trigger -->
+        >
         <a
           class="hidden-arrow mr-4 flex items-center text-neutral-600 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-          {%if urgent_tickets%}
           href="{% url 'urgent_tickets' %}"
-          {% endif%}
-          id="dropdownMenuButton1"
-          role="button"
-          data-te-dropdown-toggle-ref
-          aria-expanded="false">
-          <!-- Dropdown trigger icon -->
+          >
+          
           <span class="[&>svg]:w-5">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +148,7 @@
           <!-- Notification counter -->
           <span
             class="absolute -mt-4 ml-2.5 rounded-full bg-danger px-[0.35em] py-[0.15em] text-[0.6rem] font-bold leading-none text-white"
-            >{{urgent_tickets}}</span
+            >{{urgent_ticket}}</span
           >
         </a>
         

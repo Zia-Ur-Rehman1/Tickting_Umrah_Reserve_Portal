@@ -1010,9 +1010,9 @@ html.dark {
   margin-right: auto;
 }
 
-.my-6 {
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .-mt-4 {
@@ -1053,6 +1053,10 @@ html.dark {
 
 .ml-auto {
   margin-left: auto;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
 }
 
 .mr-4 {
@@ -1163,8 +1167,8 @@ html.dark {
   min-height: calc(100% - 1rem);
 }
 
-.w-48 {
-  width: 12rem;
+.w-28 {
+  width: 7rem;
 }
 
 .w-5 {
@@ -1275,6 +1279,10 @@ html.dark {
 
 .list-disc {
   list-style-type: disc;
+}
+
+.list-none {
+  list-style-type: none;
 }
 
 .grid-cols-1 {
@@ -1398,6 +1406,10 @@ html.dark {
 
 .rounded-none {
   border-radius: 0px;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
 }
 
 .rounded-b-md {
@@ -1536,6 +1548,10 @@ html.dark {
   --tw-bg-opacity: 0.4;
 }
 
+.bg-gradient-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
 .bg-gradient-to-tr {
   background-image: linear-gradient(to top right, var(--tw-gradient-stops));
 }
@@ -1546,8 +1562,18 @@ html.dark {
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
+.from-pink-500 {
+  --tw-gradient-from: #ec4899 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(236 72 153 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
 .to-\[\#9089fc\] {
   --tw-gradient-to: #9089fc var(--tw-gradient-to-position);
+}
+
+.to-blue-500 {
+  --tw-gradient-to: #3b82f6 var(--tw-gradient-to-position);
 }
 
 .bg-clip-padding {
@@ -2043,6 +2069,11 @@ html.dark {
   background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
 
+.hover\:text-blue-700:hover {
+  --tw-text-opacity: 1;
+  color: rgb(29 78 216 / var(--tw-text-opacity));
+}
+
 .hover\:text-green-900:hover {
   --tw-text-opacity: 1;
   color: rgb(20 83 45 / var(--tw-text-opacity));
@@ -2268,16 +2299,8 @@ html.dark {
     margin-top: 5rem;
   }
 
-  .sm\:flex {
-    display: flex;
-  }
-
   .sm\:w-\[72\.1875rem\] {
     width: 72.1875rem;
-  }
-
-  .sm\:flex-auto {
-    flex: 1 1 auto;
   }
 
   .sm\:grid-cols-2 {

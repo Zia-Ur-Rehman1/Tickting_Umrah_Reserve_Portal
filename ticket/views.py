@@ -12,25 +12,24 @@ from .ledger_views import *
 from .supplier_views import *
 from .customer_views import *
 from .csv_manipulation import *
+from django.core.paginator import Paginator
 activate(settings.TIME_ZONE)
 
 def ticket_list(request):
-    tickets = Ticket.objects.all().order_by('-created_at')
-    urgent_tickets = tickets.filter(travel_date__range=(timezone.now(),timezone.now() + timedelta(days=3))).count()
+    tickets_list = Ticket.objects.all().order_by('-created_at')
+    p = Paginator(tickets_list, 20) 
+    page= request.GET.get('page')
+    tickets = p.get_page(page)
+    urgent_ticket = tickets_list.filter(travel_date__range=(timezone.now(),timezone.now() + timedelta(days=3))).count()
 
     message_list = messages.get_messages(request)
-    return render(request, 'ticket_list.html', {'tickets': tickets, 'message_list': message_list, 'urgent_tickets': urgent_tickets})
+    return render(request, 'ticket_list.html', {'tickets': tickets, 'message_list': message_list, 'urgent_ticket': urgent_ticket})
 
 
 def ticket_create(request):
     if request.method == 'POST':
         form = TicketForm(request.POST)
         if form.is_valid():
-            cleaned_data = form.cleaned_data
-            airline = cleaned_data['airline']
-            passenger = cleaned_data['passenger']
-            print (airline)
-            print(passenger)
             form.save()
             return redirect('ticket_list')
     else:
@@ -42,12 +41,6 @@ def ticket_update(request, pk):
     if request.method == 'POST':
         form = TicketForm(request.POST, instance=ticket)
         if form.is_valid():
-            cleaned_data = form.cleaned_data
-            airline = cleaned_data['airline']
-            passenger = cleaned_data['passenger']
-            print (airline)
-            print(passenger)
-          
             form.save()
             return redirect('ticket_list')
     else:
@@ -92,3 +85,4 @@ def search(request):
     else:
         messages.warning(request, 'No matching tickets found.')
         return redirect('ticket_list')
+

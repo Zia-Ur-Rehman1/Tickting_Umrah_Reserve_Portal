@@ -7,6 +7,12 @@ class Customer(models.Model):
     name = models.CharField(max_length=255)
     opening_balance = models.PositiveIntegerField( blank=True, null=True)
 
+    def calculate_balance(self):
+        total_purchase = Ticket.objects.filter(customer=self).aggregate(models.Sum('purchase'))['purchase__sum'] or 0
+        total_payment = Ledger.objects.filter(customer=self).aggregate(models.Sum('payment'))['payment__sum'] or 0
+        balance = self.opening_balance + total_purchase - total_payment
+
+        return balance
     def __str__(self):
         return f"{self.name}"
 
