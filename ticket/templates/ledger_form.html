@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block content %}
 
-<div class="isolate bg-white px-6 py-24 sm:py-32 lg:px-8 add-bg">
+<div class="isolate bg-white px-6 py-5 sm:py-5 lg:px-4 add-bg">
   {% if form.errors %}
   <div
     class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
@@ -14,16 +14,15 @@
     </ul>
   </div>
   {% endif %}
+  <div class="flex items-center justify-center h-auto">
 
-  <div
-    class="h-full w-full bg-blue-300 p-10 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100"
-  >
+  <div class=" h-auto max-w-lg bg-blue-300 p-10 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100">
     <div class="mx-auto max-w-2xl text-center">
       <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
         {% if form.instance.id %} Update Ledger {% else %} Create Ledger {% endif %}
       </h1>
     </div>
-    <div class="grid grid-cols-1 grid-rows-4 gap-4">
+    <div class="grid grid-cols-1">
       <form
         method="POST"
         enctype="multipart/form-data"
@@ -80,15 +79,17 @@
           >
           <div class="mt-2.5">
             <input
-              type="number"
+              type="text"
               name="payment"
-              id="payment"
+              id="currency"
               autocomplete="off"
               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               value="{% if form.instance.payment %}{{ form.instance.payment }}{% endif %}"
             />
           </div>
         </div>
+        <!-- Payemnt Date -->
+       
         <div class="col-span-2 md:col-span-1 lg:col-span-1">
           <label
             for="payment_date"
@@ -106,7 +107,23 @@
             />
           </div>
         </div>
+        <!-- Description -->
 
+        <div class="col-span-2 md:col-span-1 lg:col-span-1">
+          <label for="description" class="block text-sm font-semibold leading-6 text-gray-900">
+            Description
+          </label>
+          <div class="mt-2.5">
+            <textarea
+              id="description"
+              name="description"
+              rows="4"
+              class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              placeholder="Enter description..."
+            >{{ form.instance.description }}</textarea>
+          </div>
+        </div>
+        
         <div class="col-span-4 flex justify-center mt-6">
           <div class="flex items-center space-x-4">
             <!-- Update or Save Ticket button -->
@@ -128,6 +145,7 @@
         </div>
       </form>
     </div>
+  </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>

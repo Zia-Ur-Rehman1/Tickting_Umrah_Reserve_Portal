@@ -2,22 +2,21 @@
   <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
       <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-        <table class="min-w-full divide-y divide-gray-300">
+        <table class="min-w-full  divide-y divide-gray-300">
           <thead class="bg-gray-50">
             <tr>
               <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Date</th>
               <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">PNR/Reservation Num</th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Sector</th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Travel Date</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Return Date</th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Airline</th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Supplier</th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Purchase</th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Customer</th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Sale</th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Passenger</th>
-              <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                
-              </th>
+              <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">Action</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200 bg-white">
@@ -34,6 +33,7 @@
                 </td>
                 
                 {% endif %}
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.return_date }}</td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.airline }}</td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.supplier.name }}</td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.purchase }}</td>

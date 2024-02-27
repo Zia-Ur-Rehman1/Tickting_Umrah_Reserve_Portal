@@ -3,7 +3,7 @@ from .models import Ticket, Supplier, Ledger, Customer
 from django.db.models import Q
 from .forms import LedgerForm
 def ledger_list(request):
-    ledgers = Ledger.objects.all()
+    ledgers = Ledger.objects.all().order_by('payment_date')
     return render(request, 'ledger_list.html', {'ledgers': ledgers })
 
 def ledger_create(request):
@@ -69,7 +69,6 @@ def ledger_generate(obj, model_name, start_at=None, end_at=None):
             total += entry['purchase']
         elif 'payment' in entry:
             total -= entry['payment']
-
         # Add the total to the current entry
         entry['total'] = total
 

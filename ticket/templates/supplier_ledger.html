@@ -3,18 +3,33 @@
 
 {% block content %}
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <div class="p-5 text-lg flex flex-row justify-around font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+    <div>
+    <span class='text-base'>Name:</span>
+    <span class=''>{{ obj.name }}</span>
+    </div>
+    <br>
+
+    <div>
+    <span class='text-base'>Opening Balance:</span>
+    <span class=''>{{ obj.opening_balance }}</span>
+  </div>
+  <br>
+
+    <div>  
+    <span class='text-base'>Total Balance:</span>
+    <span class=''>{{ total_balance }}</span>
+    </div>
+ 
+  </div>
+
   <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-    <caption class="p-5 text-lg  font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-          <span class='text-base'>Name:</span>
-          <span class=''>{{ obj.name }}</span>
-          <span class='text-base'>Opening Balance:</span>
-          <span class=''>{{ obj.opening_balance }}</span>
-          <span class='text-base'>Total Balance:</span>
-          <span class=''>{{ total_balance }}</span>
-    </caption>
     
-    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <thead class="text-lg text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
+            <th scope="col" class="px-6 py-3">
+              Date
+          </th>
               <th scope="col" class="px-6 py-3">
                   PNR
               </th>
@@ -23,18 +38,13 @@
               </th>
             
               <th scope="col" class="px-6 py-3">
-                  Purchase
+                  Debit
               </th>
+              
               <th scope="col" class="px-6 py-3">
-                  Date
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Payment
+                Credit
               </th>
 
-              <th scope="col" class="px-6 py-3">
-                Payment Date
-              </th>
               <th scope="col" class="px-6 py-3">
                 Balance
               </th>
@@ -45,14 +55,13 @@
       </thead>
       <tbody>
           {% for entry in data %}
-              <tr class="bg-white text-black border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <tr class="bg-white text-black border-b text-lg dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     {% if entry.pnr %}
                       {# Ticket Data #}
+                      <td class="px-6 py-4 ">{{ entry.created_at|date:"d M h:i a" }}</td>
                       <td class="px-6 py-4 ">{{ entry.pnr }}</td>
                       <td class="px-6 py-4 ">{{ entry.passenger }}</td>
-                      <td class="px-6 py-4 bg-red-500 text-white">Rs: {{ entry.purchase }}</td>
-                      <td class="px-6 py-4 ">{{ entry.created_at|date:"d M h:i a" }}</td>
-                      <td class="px-6 py-4"></td> 
+                      <td class="px-6 py-4 text-red-500">Rs: {{ entry.purchase }}</td>
                       <td class="px-6 py-4"></td> 
                       <td class="px-6 py-4 ">Rs: {{entry.total}}</td>  
                       <td class="px-6 py-4 ">
@@ -61,12 +70,11 @@
                       </td>
                     {% else %}
                       {# Ledger Data #}
+                      <td class="px-6 py-4 text-green-500">{{ entry.payment_date|date:"d M h:i a" }}</td>
                       <td class="px-6 py-4"></td>  {# Leave PNR cell empty for Ledger #}
                       <td class="px-6 py-4"></td> 
                       <td class="px-6 py-4"></td>  
-                      <td class="px-6 py-4"></td>  
-                      <td class="px-6 py-4 bg-green-400">Rs: {{entry.payment}}</td>  
-                      <td class="px-6 py-4 bg-green-500">{{ entry.payment_date|date:"d M h:i a" }}</td>
+                      <td class="px-6 py-4 text-green-500">Rs: {{entry.payment}}</td>  
                       <td class="px-6 py-4 ">Rs: {{entry.total}}</td>  
                       <td class="px-6 py-4 ">
                         <a href="{% url 'ledger_update' pk=entry.id %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>

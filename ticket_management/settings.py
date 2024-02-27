@@ -10,12 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import environ
 import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+env = environ.Env(
+    SECRET_KEY=(str, os.getenv("SECRET_KEY")),
+    DATABASE_URL=(str, os.getenv("DATABASE_URL")),
+)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -87,8 +91,12 @@ INTERNAL_IPS = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "defaultdb",
+        "USER": "avnadmin",
+        "PASSWORD": "AVNS_rQO3B4dHcxQ4ctAXewx",
+        "HOST": "pg-hasnaindb-ziakhanalone100-7192.a.aivencloud.com",
+        "PORT": "18253",
     }
 }
 
@@ -135,5 +143,7 @@ STATIC_ROOT = BASE_DIR.parent / "static"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io', 'b954-2400-adc7-909-8500-aa6a-d13d-f7d7-5916.ngrok-free.app']
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS= ['https://app-jvll7wszdq-uc.a.run.app']
 TAILWIND_CSS_PATH = 'css/dist/styles.css'
+USE_THOUSAND_SEPARATOR = True

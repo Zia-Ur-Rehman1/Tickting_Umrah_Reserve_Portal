@@ -5,7 +5,7 @@ from django.utils import timezone
     
 class Customer(models.Model):
     name = models.CharField(max_length=255)
-    opening_balance = models.PositiveIntegerField( blank=True, null=True)
+    opening_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     def calculate_balance(self):
         total_purchase = Ticket.objects.filter(customer=self).aggregate(models.Sum('purchase'))['purchase__sum'] or 0
@@ -18,7 +18,7 @@ class Customer(models.Model):
 
 class Supplier(models.Model):
     name = models.CharField(max_length=255)
-    opening_balance = models.PositiveIntegerField( blank=True, null=True, default=0)
+    opening_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     def calculate_balance(self):
         total_purchase = Ticket.objects.filter(supplier=self).aggregate(models.Sum('purchase'))['purchase__sum'] or 0
         total_payment = Ledger.objects.filter(supplier=self).aggregate(models.Sum('payment'))['payment__sum'] or 0
@@ -34,11 +34,12 @@ class Ticket(models.Model):
     sector = models.CharField(max_length=100, blank= True, null=True)
     passenger = models.CharField(max_length=100, blank= True, null=True)
     travel_date = models.DateTimeField(blank=True, null=True)
+    return_date = models.DateTimeField(blank=True, null=True)
     airline = models.CharField(max_length=100, blank= True, null=True)
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, blank=False, null=False)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=False, null=False)
-    sale = models.PositiveIntegerField( blank=False, null=False, default=0)
-    purchase = models.PositiveIntegerField( blank=False, null=False, default=0 )
+    sale = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    purchase = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     def __str__(self):
         return (
         f"Ticket with PNR: {self.airline}<br>"
@@ -52,8 +53,9 @@ class Ticket(models.Model):
 class Ledger(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete=models.PROTECT, blank=True, null=True)
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT, blank=True, null=True)
-    payment = models.PositiveIntegerField( blank=False, null=False, default=0)
+    payment = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     payment_date = models.DateTimeField(default=timezone.now)
+    description= models.TextField( blank=True, null=True, default="")
     
 def __str__(self):
     return f"  {self.payment} to {self.supplier} on {self.payment_date}"

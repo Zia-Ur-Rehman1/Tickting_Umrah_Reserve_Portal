@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mx-auto flex justify-center items-center h-screen">
+<div class="container mx-auto flex justify-center items-center py-6">
     <div class=" p-6 w-full max-w-md bg-gradient-to-br from-pink-500 to-blue-500 rounded-xl shadow-md">
 
 <form  method="POST" enctype="multipart/form-data" action="{% url 'generate_pdf' %}" class="mx-auto mt-8 mb-8   ">
   {% csrf_token %}
 <div class="grid lg:grid-cols-2 md:grid-cols-2 gap-x-8  sm:grid-cols-2 ">
 
-  <div class="col-span-6 md:col-span-1 lg:col-span-1">
+  <div class="col-span-2 md:col-span-1 lg:col-span-1">
     <label
       for="supplier_id"
       class="block text-sm font-semibold leading-6 text-gray-900"
@@ -27,7 +27,7 @@
   </div>
   <!-- Customer Field -->
 
-  <div class="col-span-6 md:col-span-1 lg:col-span-1">
+  <div class="col-span-2 md:col-span-1 lg:col-span-1">
     <label
       for="customer_id"
       class="block text-sm font-semibold leading-6 text-gray-900"

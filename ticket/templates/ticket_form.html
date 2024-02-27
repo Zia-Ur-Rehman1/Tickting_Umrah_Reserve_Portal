@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="isolate bg-white px-6 py-24 sm:py-32 lg:px-8 add-bg overflow-auto">
+  <div class="isolate bg-white px-6 py-6 sm:py-6 lg:px-8 add-bg overflow-auto">
     {% if form.errors %}
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
       <strong class="font-bold">Oops! There was an error.</strong>
@@ -24,7 +24,7 @@
 
       <div class="grid lg:grid-cols-4 md:grid-cols-3 gap-x-8 gap-y-6 sm:grid-cols-2">
         <!-- PNR Field -->
-        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+        <div class= 'col-span-2 md:col-span-1 lg:col-span-1 '>
           <label for="pnr" class=" block text-sm font-semibold leading-6 text-gray-900">PNR</label>
           <div class="mt-2.5">
             <input type="text" name="pnr" id="pnr" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{{ form.instance.pnr }}">
@@ -55,7 +55,7 @@
         </div>
 
         <!-- Supplier Field -->
-        <div class="col-span-6 md:col-span-1 lg:col-span-1">
+        <div class="col-span-2 md:col-span-1 lg:col-span-1">
           <label
             for="supplier_id"
             class="block text-sm font-semibold leading-6 text-gray-900"
@@ -75,7 +75,7 @@
         </div>
         <!-- Customer Field -->
 
-        <div class="col-span-6 md:col-span-1 lg:col-span-1">
+        <div class="col-span-2 md:col-span-1 lg:col-span-1">
           <label
             for="customer_id"
             class="block text-sm font-semibold leading-6 text-gray-900"
@@ -111,23 +111,33 @@
         </div>
         
         <!-- Sale Field-->
-      <div class="col-span-4  flex justify-center mt-6 space-x-8">
-        <div>
+        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
           <label for="sale" class="block text-sm font-semibold leading-6 text-gray-900">Sale</label>
           <div class="mt-2.5">
-            <input type="text" name="sale" id="sale" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.sale %}{{ form.instance.sale }}{% endif %}">
-          </div>
+            <input type="text" name="sale" id="currency" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+            value="{% if form.instance.sale %}{{ form.instance.sale }}{% endif %}">
+          
+        </div>
         </div>
 
         <!-- Purchase Field-->
-        <div>
+        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
           <label for="purchase" class="block text-sm font-semibold leading-6 text-gray-900">Purchase</label>
           <div class="mt-2.5">
-            <input type="text" name="purchase" id="purchase" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.purchase %}{{ form.instance.purchase }}{% endif %}">
+            <input type="text" name="purchase" id="currency" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+            value="{% if form.instance.purchase %}{{ form.instance.purchase }}{% endif %}">
           </div>
         </div>
+        <!-- Return Date-->
+        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+          <label for="return_date" class="block text-sm font-semibold leading-6 text-gray-900">Return Date</label>
+          <div class="mt-2.5">
+            <input type="date" name="return_date" id="return_date" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.travel_date %}{{ form.instance.travel_date|date:'Y-m-d' }}{% endif %}">
+          </div>
+        </div>
+        
       </div>
-      <div class="col-span-4 flex justify-center mt-6">
+      <div class="col-span-2 lg:col-span-4 flex justify-center mt-6">
         <div class="flex items-center space-x-4">
           <!-- Update or Save Ticket button -->
           <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">

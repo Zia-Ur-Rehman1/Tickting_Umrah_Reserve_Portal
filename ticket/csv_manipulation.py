@@ -163,6 +163,11 @@ def process_name(name):
         return ' '.join(parts[-2:][::-1] + [parts[0]])
     else:
         return name
+    
+def travel_point():
+    df2= pd.read_csv('TP.csv', skiprows=12).dropna(how='all')
+    df2['Ticket No.']= df2['Ticket No.'].dropna()
+    df2['Ticket No.']= df2['Ticket No.'].iloc[:54]
 # def travel_point(file):
 # df = pd.read_csv('TP.csv', skipinitialspace=True, usecols=[2,6], skiprows=1).dropna(how='all')
 # df = df[df['TRAVEL POINT TICKETS'].notna()]
