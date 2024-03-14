@@ -1,3 +1,4 @@
+{% load static%}
 <nav
   class="flex-no-wrap relative flex w-full items-center justify-between bg-[#FBFBFB] py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
   <div class="flex w-full flex-wrap items-center justify-between px-3">
@@ -24,7 +25,6 @@
         </svg>
       </span>
     </button>
-
     <!-- Collapsible navigation container -->
     <div
       class="!visible hidden flex-grow basis-[100%] items-center lg:!flex lg:basis-auto"
@@ -32,14 +32,24 @@
       data-te-collapse-item>
       <!-- Logo -->
       <a
-        class="mb-4 ml-2 mr-5 mt-3 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0"
-        href="{% url 'ticket_list' %}">
+      class="ml-2  pb-3 text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0"
+      href="{% url 'index' %}">
+      {% if user.id == 2%}
         <img
-          src="/static/images/HT.png"
+          src="{% static 'images/HT.png' %}"
           class="h-7 w-auto flex-shrink-0"
-          alt="HT Logo"
+          alt="HT"
           loading="lazy" />
-      </a>
+          {% elif  user.id == 3 %}
+          <img
+          src="{% static 'images/Karwan.jpg' %}"
+          class="h-auto w-7 flex-shrink-0"
+          alt="KH"
+          loading="lazy" />
+      
+        </a>
+
+      {% endif %}
       <!-- Left navigation links -->
       <ul
         class="list-style-none mr-auto flex flex-col pl-0 lg:flex-row"
@@ -48,7 +58,7 @@
           <!-- Dashboard link -->
           <a
             class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
-            href="{% url 'ticket_list' %}"
+            href="{% url 'index' %}"
             data-te-nav-link-ref
             >Tickets</a
           >
@@ -89,10 +99,10 @@
           >
         </li>
         <li class="mb-4 lg:mb-0 lg:pr-2" >
-<button id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider" class="text-white bg-blue-700 hover:bg-blue-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Create<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-  </svg>
-</button>
+       <button id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider" class="text-white bg-blue-700 hover:bg-blue-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Create<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+          </svg>
+          </button>
   
   <!-- Dropdown menu -->
   <div id="dropdownDivider" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
@@ -134,9 +144,7 @@
     </form>
 
       <!-- Container with two dropdown menus -->
-      <div
-        class="relative"
-        >
+      <div class="relative">
         <a
           class="hidden-arrow mr-4 flex items-center text-neutral-600 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
           href="{% url 'urgent_tickets' %}"
@@ -156,12 +164,13 @@
           </span>
           <!-- Notification counter -->
           <span
-            class="absolute -mt-4 ml-2.5 rounded-full bg-danger px-[0.35em] py-[0.15em] text-[0.6rem] font-bold leading-none text-white"
+            class="absolute -mt-4 ml-2.5 rounded-full px-[0.35em] py-[0.15em] text-[1rem] font-bold leading-none text-red-500"
             >{{urgent_ticket}}</span
           >
         </a>
         
       </div>
+      <a href="{% url 'logout_user' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Logout</a>
 
     </div>
   </div>

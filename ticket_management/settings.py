@@ -49,8 +49,10 @@ INSTALLED_APPS = [
     "debug_toolbar",
 ]
 
+TAILWIND_APP_NAME = 'theme'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -59,7 +61,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_browser_reload.middleware.BrowserReloadMiddleware",
-    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 ROOT_URLCONF = 'ticket_management.urls'
@@ -67,7 +68,7 @@ ROOT_URLCONF = 'ticket_management.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,11 +82,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ticket_management.wsgi.application'
-TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -134,11 +133,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 STATIC_URL = 'static/'
+MEDIA_URL= '/images/'
 STATICFILES_DIRS = [
-  BASE_DIR / "theme/static",
-  BASE_DIR / "./node_modules",
+  BASE_DIR / "./theme/static",
+  BASE_DIR / "./theme/static_src/node_modules",
 ]
 STATIC_ROOT = BASE_DIR.parent / "static"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -147,3 +148,4 @@ ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS= ['https://app-jvll7wszdq-uc.a.run.app']
 TAILWIND_CSS_PATH = 'css/dist/styles.css'
 USE_THOUSAND_SEPARATOR = True
+LOGIN_URL = '/ticket/login/'

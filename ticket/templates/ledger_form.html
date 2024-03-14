@@ -29,6 +29,7 @@
         class="mx-auto mt-16 sm:mt-20"
       >
         {% csrf_token %}
+        <input type="hidden" name="user" value="{{ request.user.id }}">
 
         <!-- Supplier Field -->
         <div class="col-span-6 md:col-span-1 lg:col-span-1">
@@ -44,7 +45,7 @@
             class="block w-full form-control rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           >
             <option></option>
-            {% for supplier in form.supplier.field.queryset %}
+            {% for supplier in suppliers %}
             <option value="{{ supplier.id }}" {% if supplier.id == form.initial.supplier %}selected{% endif %}>{{ supplier.name }}</option>
             {% endfor %}
           </select>
@@ -64,7 +65,7 @@
             class="block  form-control w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           >
             <option></option>
-            {% for customer in form.customer.field.queryset %}
+            {% for customer in customers %}
             <option value="{{ customer.id }}" {% if customer.id == form.initial.customer %}selected{% endif %}>{{ customer.name }}</option>
             {% endfor %}
           </select>
@@ -133,20 +134,19 @@
             >
               {% if form.instance.id %} Update Ledger {% else %} Save Ledger {% endif %}
             </button>
-
-            <!-- Back to Tickets button -->
-            <a
-              href="{% url 'ledger_list' %}"
-              class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            <button
+              type="submit"
+              name="save_and_add_another"
+              class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
             >
-              Back to Ledger
-            </a>
+              {% if form.instance.id %} Update And Add Another {% else %} Save And Add Another {% endif %}
+            </button>
+            
           </div>
         </div>
       </form>
     </div>
   </div>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
       $(document).ready(function () {

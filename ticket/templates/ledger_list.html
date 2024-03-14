@@ -29,7 +29,7 @@
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ ledger.description|truncatechars:50 }}</td>
                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                   <a href="{% url 'ledger_update' pk=ledger.pk %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
-                  <a href="{% url 'delete_record' pk=ledger.pk model_name='ledger' %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
+                  <a href="#" id="ledger-del" data-tid="{{ledger.pk}}" data-model="ledger"  class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
                 </td>
               </tr>
             {% endfor %}

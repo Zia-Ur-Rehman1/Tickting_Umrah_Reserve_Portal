@@ -20,11 +20,12 @@
     </div>
     <form method="POST"  enctype="multipart/form-data" class=" mx-auto mt-16 sm:mt-20">
       {% csrf_token %}
-
+      
+      <input type="hidden" name="user" value="{{ request.user.id }}">
       {% for field in form.visible_fields %}
       <div>
-          <label for="{{ field.name }}" class="block text-sm font-semibold leading-6 text-gray-900">{{ field.label }}</label>
-          <div class="mt-2.5">
+        <label for="{{ field.name }}" class="block text-sm font-semibold leading-6 text-gray-900">{{ field.label }}</label>
+        <div class="mt-2.5">
               <input
                   type="{{ field.field.widget.input_type }}"
                   name="{{ field.name }}"
@@ -39,7 +40,7 @@
           </div>
       </div>
       
-  {% endfor %}
+      {% endfor %}
       <div class="grid lg:grid-cols-4 md:grid-cols-3 gap-x-8 gap-y-6 sm:grid-cols-2">
 
         <div class="col-span-4 flex justify-center mt-6">
@@ -48,6 +49,11 @@
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
               {% if form.instance.id %} Update {% else %} Save  {% endif %}
             </button>
+            <button type="submit" name="save_and_add_another" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+              {% if form.instance.id %} Update and Add Another {% else %} Save  and Add Another {% endif %}
+            </button>
+
+
           </div>
         </div>
         

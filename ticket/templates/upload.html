@@ -7,4 +7,19 @@
   {{ form }}
   <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Upload</button>
 </form>
+
+<h1>Missing PNRs:</h1>
+    <ul>
+      {% for index,row in missing.iterrows %}
+            <li>{{row}}</li>
+        {% endfor %}
+    </ul>
+
+    <h1>Mismatched PNRs:</h1>
+    <ul>
+      {% for index,row in mismatched.iterrows %}
+            <li>{{ row }}</li>
+        {% endfor %}
+
+    </ul>
 {% endblock %}

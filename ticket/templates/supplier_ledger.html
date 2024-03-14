@@ -17,7 +17,7 @@
   <br>
 
     <div>  
-    <span class='text-base'>Total Balance:</span>
+    <span class='text-base'>Closing Balance:</span>
     <span class=''>{{ total_balance }}</span>
     </div>
  
@@ -48,38 +48,80 @@
               <th scope="col" class="px-6 py-3">
                 Balance
               </th>
+              {% if user.is_authenticated%}
               <th scope="col" class="px-6 py-3">
                 Action
               </th>
+              {% endif%}
             </tr>
       </thead>
       <tbody>
           {% for entry in data %}
               <tr class="bg-white text-black border-b text-lg dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    {% if entry.pnr %}
+                    {% if entry.purchase >= 0 or entry.sale >= 0 %}
                       {# Ticket Data #}
                       <td class="px-6 py-4 ">{{ entry.created_at|date:"d M h:i a" }}</td>
                       <td class="px-6 py-4 ">{{ entry.pnr }}</td>
                       <td class="px-6 py-4 ">{{ entry.passenger }}</td>
-                      <td class="px-6 py-4 text-red-500">Rs: {{ entry.purchase }}</td>
+                        {% if model_name == 'supplier'%}
+                          <td class="px-6 py-4 text-red-500">Rs: {{ entry.purchase }}</td>
+                        {% else%}
+                          <td class="px-6 py-4 text-red-500">Rs: {{ entry.sale }}</td>
+                        {% endif%}
                       <td class="px-6 py-4"></td> 
                       <td class="px-6 py-4 ">Rs: {{entry.total}}</td>  
-                      <td class="px-6 py-4 ">
-                        <a href="{% url 'ticket_update' pk=entry.id %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
-                        <a href="{% url 'delete_record' pk=entry.id model_name='ticket' %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
-                      </td>
-                    {% else %}
+                        {% if user.is_authenticated%}
+                          <td class="px-6 py-4 ">
+                            <a href="{% url 'ticket_update' pk=entry.id %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
+                            <a href="{% url 'delete_record' pk=entry.id model_name='ticket' %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
+                          </td>
+                      {% endif%}
+
+                      {% elif entry.purchase <= 0  or entry.sale <= 0%}
+                      {# Ticket Data #}
+                      <td class="px-6 py-4 ">{{ entry.created_at|date:"d M h:i a" }}</td>
+                      <td class="px-6 py-4 ">{{ entry.pnr }}</td>
+                      <td class="px-6 py-4 ">{{ entry.passenger }}</td>
+                      <td class="px-6 py-4"></td> 
+                        {% if model_name == 'supplier'%}
+                          <td class="px-6 py-4 text-green-500">Rs: {{ entry.purchase }}</td>
+                        {% else%}
+                          <td class="px-6 py-4 text-green-500">Rs: {{ entry.sale }}</td>
+                        {% endif%}
+                      <td class="px-6 py-4 ">Rs: {{entry.total}}</td>  
+                        {% if user.is_authenticated%}
+                          <td class="px-6 py-4 ">
+                            <a href="{% url 'ticket_update' pk=entry.id %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
+                            <a href="{% url 'delete_record' pk=entry.id model_name='ticket' %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
+                          </td>
+                      {% endif%}
+
+                    {% elif entry.payment >= 0 %}
                       {# Ledger Data #}
                       <td class="px-6 py-4 text-green-500">{{ entry.payment_date|date:"d M h:i a" }}</td>
-                      <td class="px-6 py-4"></td>  {# Leave PNR cell empty for Ledger #}
-                      <td class="px-6 py-4"></td> 
-                      <td class="px-6 py-4"></td>  
+                      <td class="px-6 py-4" colspan="3">{{ entry.description }}</td>  {# Leave PNR cell empty for Ledger #}
                       <td class="px-6 py-4 text-green-500">Rs: {{entry.payment}}</td>  
                       <td class="px-6 py-4 ">Rs: {{entry.total}}</td>  
-                      <td class="px-6 py-4 ">
-                        <a href="{% url 'ledger_update' pk=entry.id %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
-                        <a href="{% url 'delete_record' pk=entry.id model_name='ledger' %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
-                      </td>
+                            {% if user.is_authenticated%}
+                            <td class="px-6 py-4 ">
+                              <a href="{% url 'ledger_update' pk=entry.id %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
+                              <a href="{% url 'delete_record' pk=entry.id model_name='ledger' %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
+                            </td>
+                            {% endif%}
+                    {% elif entry.payment <= 0 %}
+                            <td class="px-6 py-4 text-red-500">{{ entry.payment_date|date:"d M h:i a" }}</td>
+                            <td class="px-6 py-4" colspan="2">{{ entry.description }}</td>  {# Leave PNR cell empty for Ledger #}
+                            <td class="px-6 py-4 text-red-500">Rs: {{ entry.payment }}</td>
+                            <td class="px-6 py-4 "></td>  
+
+                            <td class="px-6 py-4 ">Rs: {{entry.total}}</td>  
+                                  {% if user.is_authenticated%}
+                                  <td class="px-6 py-4 ">
+                                    <a href="{% url 'ledger_update' pk=entry.id %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
+                                    <a href="{% url 'delete_record' pk=entry.id model_name='ledger' %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
+                                  </td>
+                                  {% endif%}
+
                     {% endif %}
               </tr>
           {% endfor %}

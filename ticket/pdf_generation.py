@@ -1,8 +1,8 @@
 from django.http import FileResponse
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.units import inch, cm
+from reportlab.lib.units import inch
 from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Table, Paragraph, Image, TableStyle,Spacer
+from reportlab.platypus import SimpleDocTemplate, Table, Paragraph, Image
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from .ledger_views import *
 from .forms import PdfGenerationForm
@@ -22,26 +22,22 @@ def generatePDF(request):
             else:
                 model = 'customer'
                 response = createPDF(request, customer, model, start_at, end_at)
-            return response
+            if response is None:
+                messages.error(request, 'No Data Found')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+            else:
+                messages.success(request, 'Pdf generated Succefully')
+                return response
         else:
-            # If the form is not valid, you may want to handle this case
-            # For example, you can re-render the form with validation errors
             return render(request, 'generate_pdf.html', {'form': form})
 
     else:
-        suppliers = Supplier.objects.all()
-        customers = Customer.objects.all()
+        suppliers = Supplier.objects.filter(user=request.user).all()
+        customers = Customer.objects.filter(user=request.user).all()
         form = PdfGenerationForm()
         return render(request, 'generate_pdf.html', {'form': form, 'suppliers': suppliers, 'customers': customers})
         
-
-# def header(canvas, doc, table):
-#     canvas.saveState()
-#     w, h = table.wrapOn(canvas, doc.width, doc.topMargin)
-#     table.drawOn(canvas, doc.leftMargin, doc.height + doc.bottomMargin + doc.topMargin - h)
-#     canvas.restoreState()
-    
-def drawHeader(canvas, doc, start_at, end_at):
+def drawHeader(canvas, doc, start_at, end_at, user=None):
     start_date_str = start_at.strftime("%d %b")
     end_date_str = end_at.strftime("%d %b")
     date = f"From: {start_date_str} To: {end_date_str}"
@@ -55,13 +51,24 @@ def drawHeader(canvas, doc, start_at, end_at):
     canvas.setFont('Times-Bold',16)
     # Draw the company name
     canvas.setFillColor(colors.black)
-    company_name = "HASNAIN TRAVEL AND TOURS PRIVATE LIMITED"
+    if user.id == 2:
+        company_name = "HASNAIN TRAVEL AND TOURS PRIVATE LIMITED"
+    else:
+        company_name = "KARWAN E HASSAN HAJJ AND UMRAH SERVICES"
+        
     canvas.drawString(doc.leftMargin, doc.height + doc.bottomMargin + doc.topMargin - 30, company_name)
     # Draw the image on the right end of the page
-    img = Image('staticfiles/images/HT.png', width=50, height=50)
+    if user.id == 2:
+        img = Image('staticfiles/images/HT.png', width=50, height=50)
+    else:
+        img = Image('staticfiles/images/Karwan.jpg', width=50, height=50)
     img.drawOn(canvas, doc.width + doc.leftMargin - 30 , doc.height + doc.bottomMargin + doc.topMargin- 60 )
     # Draw the phone number on the next line
-    phone_number = "Contact Us: 0300-1607055  Developed By: 03701601334"
+    if user.id == 2:
+        number = '0300-1607055'
+    else:
+        number = '+92 300 7364951'
+    phone_number = f"Contact Us: {number}  Developed By: 03701601334"
     canvas.drawString(doc.leftMargin, doc.height + doc.bottomMargin + doc.topMargin - 55, phone_number)
     canvas.drawString(doc.leftMargin-70, doc.height + doc.bottomMargin + doc.topMargin - 150, date)
     canvas.restoreState()
@@ -70,25 +77,24 @@ def drawHeader(canvas, doc, start_at, end_at):
 def createPDF(request, pk, model, start_at, end_at):
     obj = get_obj(pk, model)
     combined_data = ledger_generate(obj, model, start_at, end_at)
+    if not combined_data:
+        return None
     doc = SimpleDocTemplate("report.pdf", pagesize=A4)
     
     heading_style, purchase, payment = pdf_styles()
-    img_path = "staticfiles/images/HT.png"  
-    img = Image(img_path, height=35, width=35)  
-    title = f"Name: {obj.name} <br/> Opening Balance: {obj.opening_balance} <br/> Total Balance: {combined_data[-1]['total']}"
+    title = f"Name: {obj.name} <br/> Opening Balance: {obj.opening_balance} <br/> Closing Balance: {combined_data[-1]['total']}"
     
-    data = [[Paragraph("HASNAIN TRAVEL AND TOURS PRIVATE LIMITED", heading_style), img], ['0300-1607055', '']]
-
     table_data = []
     headers=['DATE','PNR', 'PASSENGER', 'PURCHASE', 'PAYMENT', 'BALANCE']
     table_data.append(headers)
     for entry in combined_data:
         if entry.get('pnr'):
+            message = str(entry['purchase']) if model == 'supplier' else str(entry['sale'])
             ticket_row = [
                 entry['created_at'].strftime('%d %b '),
                 entry['pnr'],
                 entry['passenger'],
-                Paragraph(f"Rs: {entry['purchase']}", purchase),  # Apply style to "payment" cell
+                Paragraph(f"Rs: {message}", purchase), 
                  '',  # Leave these cells empty
                 f"Rs: {entry['total']}"
             ]
@@ -116,7 +122,7 @@ def createPDF(request, pk, model, start_at, end_at):
     elements = []
     elements.append(Paragraph(title, heading_style))
     elements.append(table)
-    doc.build(elements, onFirstPage=partial(drawHeader, start_at=start_at, end_at=end_at))
+    doc.build(elements, onFirstPage=partial(drawHeader, start_at=start_at, end_at=end_at, user=request.user))
     file_reponse = FileResponse(open("report.pdf", "rb"), as_attachment=True, filename='report.pdf')
     return file_reponse
 
