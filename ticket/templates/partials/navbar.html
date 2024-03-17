@@ -36,13 +36,13 @@
       href="{% url 'index' %}">
       {% if user.id == 2%}
         <img
-          src="{% static 'images/HT.png' %}"
+          src="{% static 'ticket/images/HT.png' %}"
           class="h-7 w-auto flex-shrink-0"
           alt="HT"
           loading="lazy" />
           {% elif  user.id == 3 %}
           <img
-          src="{% static 'images/Karwan.jpg' %}"
+          src="{% static 'ticket/images/Karwan.jpg' %}"
           class="h-auto w-7 flex-shrink-0"
           alt="KH"
           loading="lazy" />
@@ -118,6 +118,12 @@
         </li>
         <li>
         <a href="{% url 'ledger_create' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Ledger</a>
+      </li>
+      <li>
+        <a href="{% url 'visa_create' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Visa</a>
+      </li>
+      <li>
+        <a href="{% url 'rialprice_create' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Rial Price</a>
       </li>
       </ul>
   </div>

@@ -16,19 +16,15 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-env = environ.Env(
-    SECRET_KEY=(str, os.getenv("SECRET_KEY")),
-    DATABASE_URL=(str, os.getenv("DATABASE_URL")),
-)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6h-m17m9oqg7(ewcwpklt9*^gt@9&+i4eb4i)vn39(x(s-dw+t'
-
+# SECRET_KEY = 'django-insecure-6h-m17m9oqg7(ewcwpklt9*^gt@9&+i4eb4i)vn39(x(s-dw+t'
+SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -91,14 +87,14 @@ INTERNAL_IPS = [
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "defaultdb",
-        "USER": "avnadmin",
-        "PASSWORD": "AVNS_rQO3B4dHcxQ4ctAXewx",
-        "HOST": "pg-hasnaindb-ziakhanalone100-7192.a.aivencloud.com",
-        "PORT": "18253",
+        
+        "NAME": os.getenv('DB_NAME'),
+        "USER": os.getenv('DB_USER'),
+        "PASSWORD": os.getenv('DB_PASSS'),
+        "HOST": os.getenv('HOST'),
+        "PORT": os.getenv('PORT'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -135,8 +131,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 MEDIA_URL= '/images/'
 STATICFILES_DIRS = [
-  BASE_DIR / "./theme/static",
-  BASE_DIR / "./theme/static_src/node_modules",
+  BASE_DIR / "./ticket/static",
 ]
 STATIC_ROOT = BASE_DIR.parent / "static"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"

@@ -68,20 +68,39 @@ class Ledger(models.Model):
 def __str__(self):
     return f"By {self.user}  {self.payment} to {self.supplier} on {self.payment_date}"
 
-# class Visa(models.Model):
-#     VISA_TYPE = [
-#         ('DV', 'Dubai Visit'),
-#         ('SV', 'Saudia Visit'),
-#         ('DW', 'Dubai Work'),
-#         ('SW', 'Saudia Work'),
-#         ('UV', 'Umrah Visa' ), 
-#     ]
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     rial_price = models.PositiveIntegerField()
-#     supplier = models.ForeignKey(Supplier, on_delete=models.PROTECT, blank=True, null=True)
-#     customer = models.ForeignKey(Customer, on_delete=models.PROTECT, blank=True, null=True)
-#     sale = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-#     purchase = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-#     visa_type = models.CharField(max_length = 2, choices= VISA_TYPE, blank= False, null= False)
-#     duration = models.CharField(max_length=2, blank = False, null = False)
-    # duration= 
+class RialPrice(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=timezone.now)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, blank=True)
+    
+    def __str__(self):
+        return f"Price {self.price}"
+
+class Visa(models.Model):
+    VISA_TYPE = [
+        ('DV', 'Dubai Visit'),
+        ('SV', 'Saudia Visit'),
+        ('DW', 'Dubai Work'),
+        ('SW', 'Saudia Work'),
+        ('UV', 'Umrah Visa' ), 
+    ]
+    DURATION_TYPE = [
+        ('36', '36 Hours'),
+        ('96', '96 Hours'),
+        ('1m', '1 Month'),
+        ('2m', '2 Months'),
+        ('3m', '3 Months'),
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rial_price = models.PositiveIntegerField( blank=True, null=True)
+    pkr_price = models.PositiveIntegerField( blank=True, null=True)
+    supplier = models.ForeignKey(Supplier, on_delete=models.PROTECT, blank=True, null=True)
+    customer = models.ForeignKey(Customer, on_delete=models.PROTECT, blank=True, null=True)
+    sale = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    purchase = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    visa_type = models.CharField(max_length = 2, choices=VISA_TYPE, blank= False, null= False)
+    duration = models.CharField(max_length=2, choices=DURATION_TYPE, blank = False, null = False)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Rail {self.rial_price} PKR {self.pkr_price}  Visa {self.visa_type} Duration {self.duration} Sale {self.sale} Purchase {self.purchase}"

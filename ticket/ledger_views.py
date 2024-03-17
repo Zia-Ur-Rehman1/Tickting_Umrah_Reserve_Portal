@@ -22,10 +22,8 @@ def ledger_create(request):
                 return redirect('ledger_list')
 
     else:
-        suppliers = Supplier.objects.filter(user=request.user).all()
-        customers = Customer.objects.filter(user=request.user).all()
-        form = LedgerForm()
-    return render(request, 'ledger_form.html', {'form': form, 'suppliers': suppliers, 'customers': customers})
+        form = LedgerForm(user= request.user)
+    return render(request, 'ledger_form.html', {'form': form})
 
 def ledger_update(request, pk):
     ledger = get_object_or_404(Ledger, pk=pk)
@@ -39,10 +37,8 @@ def ledger_update(request, pk):
             else:
                 return redirect('ledger_list')
     else:
-        suppliers = Supplier.objects.filter(user=request.user).all()
-        customers = Customer.objects.filter(user=request.user).all()
-        form = LedgerForm(instance=ledger)
-    return render(request, 'ledger_form.html', {'form': form, 'suppliers': suppliers, 'customers': customers})
+        form = LedgerForm(instance=ledger, user=request.user)
+    return render(request, 'ledger_form.html', {'form': form})
 
 def supplier_ledger(request, pk, model_name):
     sq = Sqids()
@@ -79,9 +75,9 @@ def ledger_generate(obj, model_name, start_at=None, end_at=None):
             'pnr', 'purchase', 'sale', 'created_at', 'passenger', 'id')
         ledger_data = Ledger.objects.filter(filter_condition).values(
             'payment', 'payment_date', 'id', 'description')
-    data = list(ticket_data) + list(ledger_data)
 
-    combined_data.extend(data)
+    combined_data.extend(ticket_data)
+    combined_data.extend(ledger_data)
     combined_data = sorted(
     combined_data,
     key=lambda x: x.get('created_at') or x.get('payment_date', '')    )

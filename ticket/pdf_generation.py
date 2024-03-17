@@ -59,9 +59,9 @@ def drawHeader(canvas, doc, start_at, end_at, user=None):
     canvas.drawString(doc.leftMargin, doc.height + doc.bottomMargin + doc.topMargin - 30, company_name)
     # Draw the image on the right end of the page
     if user.id == 2:
-        img = Image('staticfiles/images/HT.png', width=50, height=50)
+        img = Image('ticket/static/ticket/images/HT.png', width=50, height=50)
     else:
-        img = Image('staticfiles/images/Karwan.jpg', width=50, height=50)
+        img = Image('ticket/static/ticket/Karwan.jpg', width=50, height=50)
     img.drawOn(canvas, doc.width + doc.leftMargin - 30 , doc.height + doc.bottomMargin + doc.topMargin- 60 )
     # Draw the phone number on the next line
     if user.id == 2:

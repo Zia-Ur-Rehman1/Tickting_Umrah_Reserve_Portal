@@ -48,6 +48,8 @@ urlpatterns = [
     path('ledgers/<str:pk>/<str:model_name>', supplier_ledger, name='supplier_ledger'),
     path('generate_pdf', generatePDF, name='generate_pdf'),
     path('tickets/upload/', upload_csv, name='upload_file'),
+    path('visa/create', visa_create, name='visa_create'),
+    path('rialprice/create', rialprice_create, name='rialprice_create'),
     
 ]
 if settings.DEBUG:

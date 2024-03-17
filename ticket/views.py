@@ -12,6 +12,7 @@ from .ledger_views import *
 from .supplier_views import *
 from .customer_views import *
 from .csv_manipulation import *
+from .visa_views import *
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
@@ -81,10 +82,8 @@ def ticket_create(request):
             message = 'Ticket Updated Succefully for PNR:  ' + pnr if ticket else 'Ticket created successfully for PNR: ' + pnr
             return JsonResponse({'status': status, 'message': message }, status=status)
     else:
-        form = TicketForm()
-        suppliers = Supplier.objects.filter(user=request.user).all()
-        customers = Customer.objects.filter(user=request.user).all()
-    return render(request, 'ticket_form.html', {'form': form, 'suppliers': suppliers, 'customers': customers})
+        form = TicketForm(user=request.user)
+    return render(request, 'ticket_form.html', {'form': form})
 
 def ticket_update(request, pk):
     ticket = get_object_or_404(Ticket, pk=pk)
@@ -95,10 +94,8 @@ def ticket_update(request, pk):
             return redirect('index')
 
     else:
-        form = TicketForm(instance=ticket)
-        suppliers = Supplier.objects.filter(user=request.user).all()
-        customers = Customer.objects.filter(user=request.user).all()
-    return render(request, 'ticket_form.html', {'form': form, 'suppliers': suppliers, 'customers': customers})
+        form = TicketForm(instance=ticket, user=request.user)
+    return render(request, 'ticket_form.html', {'form': form})
 
 @csrf_exempt
 def delete_record(request, pk, model_name):

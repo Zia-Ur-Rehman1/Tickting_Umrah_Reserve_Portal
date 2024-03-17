@@ -3,13 +3,20 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-    <title>{% block page_title %}Travel Account Ledger{% endblock %}</title>
+		<title>{% block page_title %}
+		{% if user.id == 2%}
+    		Hasnain Travel And Tours
+		{% elif user.id == 3%}
+    		Karwan E Hassan
+			{% else%}
+			Account Ledger
+		{% endif%}
+		{% endblock %}</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"/>
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>	
-		<script src="https://unpkg.com/flowbite@1.5.1/dist/flowbite.js"></script>
 
 		<script src="{% static 'js/main.js' %}"></script>
 		{% tailwind_css %}
@@ -21,11 +28,12 @@
 		{% endif%}
 		{% for message in messages %}
 			{% include 'partials/info_alert.html' with message=message%}  
-				{% endfor %}
+		{% endfor %}
 		<h5 class="text-green-500 text-center" id="info-message"> </h5>
 	
 			{% block content %}
 			{% endblock %}
+<script src="https://unpkg.com/flowbite@1.5.1/dist/flowbite.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 	
