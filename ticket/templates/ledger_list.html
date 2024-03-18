@@ -15,6 +15,7 @@
               <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"> Customer </th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Payment</th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Payment Date</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Description</th>
               <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6"></th>
             </tr>
           </thead>
@@ -25,9 +26,10 @@
                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ledger.customer.name}} </td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ledger.payment }}</td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ledger.payment_date }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ ledger.description|truncatechars:50 }}</td>
                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                   <a href="{% url 'ledger_update' pk=ledger.pk %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
-                  <a href="{% url 'delete_record' pk=ledger.pk model_name='ledger' %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
+                  <a href="#" id="ledger-del" data-tid="{{ledger.pk}}" data-model="ledger"  class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
                 </td>
               </tr>
             {% endfor %}
@@ -38,4 +40,3 @@
   </div>
 </div>
 {% endblock %}
-

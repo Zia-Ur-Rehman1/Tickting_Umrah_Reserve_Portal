@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="isolate bg-white add-bg">
+  <div class="isolate bg-white add-bg ">
     {% if form.errors %}
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
       <strong class="font-bold">Oops! There was an error.</strong>
@@ -20,22 +20,27 @@
     </div>
     <form method="POST"  enctype="multipart/form-data" class=" mx-auto mt-16 sm:mt-20">
       {% csrf_token %}
-
+      
+      <input type="hidden" name="user" value="{{ request.user.id }}">
       {% for field in form.visible_fields %}
       <div>
-          <label for="{{ field.name }}" class="block text-sm font-semibold leading-6 text-gray-900">{{ field.label }}</label>
-          <div class="mt-2.5">
+        <label for="{{ field.name }}" class="block text-sm font-semibold leading-6 text-gray-900">{{ field.label }}</label>
+        <div class="mt-2.5">
               <input
                   type="{{ field.field.widget.input_type }}"
                   name="{{ field.name }}"
+                  {% if field.id_for_label == "id_opening_balance" %}
+                  id='currency'
+                  {% else %}
                   id="{{ field.id_for_label }}"
+                  {% endif %}
                   autocomplete="off"
                   class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   value="{{ field.value|default:'' }}">
           </div>
       </div>
       
-  {% endfor %}
+      {% endfor %}
       <div class="grid lg:grid-cols-4 md:grid-cols-3 gap-x-8 gap-y-6 sm:grid-cols-2">
 
         <div class="col-span-4 flex justify-center mt-6">
@@ -44,6 +49,11 @@
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
               {% if form.instance.id %} Update {% else %} Save  {% endif %}
             </button>
+            <button type="submit" name="save_and_add_another" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+              {% if form.instance.id %} Update and Add Another {% else %} Save  and Add Another {% endif %}
+            </button>
+
+
           </div>
         </div>
         

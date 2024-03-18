@@ -23,8 +23,13 @@ from ticket.pdf_generation import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
-    path('tickets/', ticket_list, name='ticket_list'),
-    path('', ticket_list, name='ticket_list'),
+    path("__debug__/", include("debug_toolbar.urls")),
+    path('tickets/', index, name='index'),
+    path('get_ticket/', get_ticket, name='get_ticket'),
+    path('ticket/login/', login_user, name='login'),    
+    path('', login_user, name='login'),
+    path('logout_user', logout_user, name='logout_user'),
+    path('ticket/', include('django.contrib.auth.urls')),
     path('tickets/csv', generateCSV, name='get_csv'),
     path('tickets/create/', ticket_create, name='ticket_create'),
     path('tickets/urgent/', urgent_tickets, name='urgent_tickets'),
@@ -40,10 +45,11 @@ urlpatterns = [
     path('customers/create/', customer_create, name='customer_create'),
     path('customers/<int:pk>/update/', customer_update, name='customer_update'),
     path('customers/', customer_list, name='customer_list'),
-    path('ledgers/supplier/<int:pk>/<str:model_name>', supplier_ledger, name='supplier_ledger'),
+    path('ledgers/<str:pk>/<str:model_name>', supplier_ledger, name='supplier_ledger'),
     path('generate_pdf', generatePDF, name='generate_pdf'),
     path('tickets/upload/', upload_csv, name='upload_file'),
-    path("__debug__/", include("debug_toolbar.urls")),
+    path('visa/create', visa_create, name='visa_create'),
+    path('rialprice/create', rialprice_create, name='rialprice_create'),
     
 ]
 if settings.DEBUG:
