@@ -11,7 +11,7 @@ RUN pip install -r requirements.txt
 
 COPY . .
 # CMD python manage.py runserver 0.0.0.0:80
-CMD gunicorn --bind 0.0.0.0:80 ticket_management.wsgi
+CMD gunicorn --bind 0.0.0.0:8000 ticket_management.wsgi
 
 
 
