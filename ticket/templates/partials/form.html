@@ -29,6 +29,7 @@
               <input
                   type="{{ field.field.widget.input_type }}"
                   name="{{ field.name }}"
+                  required
                   {% if field.id_for_label == "id_opening_balance" %}
                   id='currency'
                   {% else %}

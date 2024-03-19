@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.9'
 
 services:
   django_gunicorn:
@@ -12,14 +12,14 @@ services:
       context: .
     ports:
       - "8000:8000"
-  nginx:
-    build: ./nginx
-    restart: on-failure
-    volumes:
-      - static:/static
-    ports:
-      - "80:80"
-    depends_on:
-      - django_gunicorn
+  # nginx:
+  #   build: ./nginx
+  #   restart: on-failure
+  #   volumes:
+  #     - static:/static
+  #   ports:
+  #     - "80:80"
+  #   depends_on:
+  #     - django_gunicorn
 volumes:
   static:

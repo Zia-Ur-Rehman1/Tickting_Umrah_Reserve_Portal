@@ -92,8 +92,8 @@ class Visa(models.Model):
         ('3m', '3 Months'),
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    rial_price = models.PositiveIntegerField( blank=True, null=True)
-    pkr_price = models.PositiveIntegerField( blank=True, null=True)
+    rial_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00 )
+    pkr_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     supplier = models.ForeignKey(Supplier, on_delete=models.PROTECT, blank=True, null=True)
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT, blank=True, null=True)
     sale = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)

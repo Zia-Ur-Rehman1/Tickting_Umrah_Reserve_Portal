@@ -117,7 +117,6 @@ def hasnain_travels_mainlist_csv(file):
     df['PURCHASE'] = pd.to_numeric(df['PURCHASE'].str.replace(',', ''), errors='coerce').fillna(0).astype(int)
     df['DEAL'] = pd.to_numeric(df['DEAL'].str.replace(',', ''), errors='coerce').fillna(0).astype(int)
     df = df.map(lambda x: x.strip() if isinstance(x, str) else x)
-# df.rename(columns={'N.CHOUDHARY TICKETS': 'Purchase'}, inplace=True)
     current_year = pd.Timestamp.now().year
     date_format = "%Y-%m-%d"
     df['DATE'] = pd.to_datetime(df['DATE'] + '-' + str(current_year), errors='coerce')

@@ -73,7 +73,7 @@
                         {% if user.is_authenticated%}
                           <td class="px-6 py-4 ">
                             <a href="{% url 'ticket_update' pk=entry.id %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
-                            <a href="{% url 'delete_record' pk=entry.id model_name='ticket' %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
+                            <a href="#" id="ticket-del" data-tid="{{entry.id}}" data-model="ticket"  class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
                           </td>
                       {% endif%}
 
@@ -92,7 +92,7 @@
                         {% if user.is_authenticated%}
                           <td class="px-6 py-4 ">
                             <a href="{% url 'ticket_update' pk=entry.id %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
-                            <a href="{% url 'delete_record' pk=entry.id model_name='ticket' %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
+                            <a href="#" id="ticket-del" data-tid="{{entry.id}}" data-model="ticket"  class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
                           </td>
                       {% endif%}
 
@@ -105,7 +105,7 @@
                             {% if user.is_authenticated%}
                             <td class="px-6 py-4 ">
                               <a href="{% url 'ledger_update' pk=entry.id %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
-                              <a href="{% url 'delete_record' pk=entry.id model_name='ledger' %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
+                              <a href="#" id="ledger-del" data-tid="{{entry.id}}" data-model="ledger"  class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
                             </td>
                             {% endif%}
                     {% elif entry.payment <= 0 %}
@@ -118,7 +118,7 @@
                                   {% if user.is_authenticated%}
                                   <td class="px-6 py-4 ">
                                     <a href="{% url 'ledger_update' pk=entry.id %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
-                                    <a href="{% url 'delete_record' pk=entry.id model_name='ledger' %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
+                                    <a href="#" id="ledger-del" data-tid="{{entry.id}}" data-model="ledger"  class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
                                   </td>
                                   {% endif%}
 

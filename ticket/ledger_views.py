@@ -7,8 +7,13 @@ from .forms import LedgerForm
 from django.contrib.auth.decorators import login_required
 from sqids import Sqids
 from datetime import timedelta
+from django.core.paginator import Paginator
+
 def ledger_list(request):
-    ledgers = Ledger.objects.filter(user=request.user).select_related('supplier', 'customer').all().order_by('payment_date')
+   
+    p = Paginator(Ledger.objects.filter(user=request.user).select_related('supplier', 'customer').all().order_by('payment_date'), 100)
+    page= request.GET.get('page')
+    ledgers = p.get_page(page)
     return render(request, 'ledger_list.html', {'ledgers': ledgers })
 @login_required
 def ledger_create(request):

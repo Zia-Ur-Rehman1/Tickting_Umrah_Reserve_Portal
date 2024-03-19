@@ -22,8 +22,8 @@ from ticket.csv_manipulation import upload_csv
 from ticket.pdf_generation import *
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("__reload__/", include("django_browser_reload.urls")),
-    path("__debug__/", include("debug_toolbar.urls")),
+    # path("__reload__/", include("django_browser_reload.urls")),
+    # path("__debug__/", include("debug_toolbar.urls")),
     path('tickets/', index, name='index'),
     path('get_ticket/', get_ticket, name='get_ticket'),
     path('ticket/login/', login_user, name='login'),    
@@ -48,8 +48,11 @@ urlpatterns = [
     path('ledgers/<str:pk>/<str:model_name>', supplier_ledger, name='supplier_ledger'),
     path('generate_pdf', generatePDF, name='generate_pdf'),
     path('tickets/upload/', upload_csv, name='upload_file'),
+    path('visas', visa_list, name='visa_list'),
     path('visa/create', visa_create, name='visa_create'),
+    path('visa/update/<int:pk>', visa_update, name='visa_update'),
     path('rialprice/create', rialprice_create, name='rialprice_create'),
+    
     
 ]
 if settings.DEBUG:

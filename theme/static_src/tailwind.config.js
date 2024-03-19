@@ -46,7 +46,7 @@ module.exports = {
     theme: {
         extend: {},
     },
-    darkMode: "class",
+    darkMode: 'class',
     plugins: [
         /**
          * '@tailwindcss/forms' is the forms plugin that provides a minimal styling
