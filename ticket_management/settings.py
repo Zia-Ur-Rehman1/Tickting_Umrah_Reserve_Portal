@@ -143,7 +143,7 @@ STORAGES = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS= ['https://app-jvll7wszdq-uc.a.run.app']
+CSRF_TRUSTED_ORIGINS= ['https://app-jvll7wszdq-uc.a.run.app', 'https://django-tailwind-production.up.railway.app']
 TAILWIND_CSS_PATH = 'css/dist/styles.css'
 USE_THOUSAND_SEPARATOR = True
 LOGIN_URL = '/ticket/login/'
