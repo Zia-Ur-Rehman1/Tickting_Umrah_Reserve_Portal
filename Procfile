@@ -1,1 +1,1 @@
-web: gunicorn ticket_management.wsgi  
+web: gunicorn ticket_management.wsgi  --log-file -
