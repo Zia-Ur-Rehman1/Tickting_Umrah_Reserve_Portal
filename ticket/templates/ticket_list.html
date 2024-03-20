@@ -10,6 +10,6 @@
   </div>
   <div class="px-4 sm:px-6 lg:px-8 ">
     {% include 'partials/ticket_table.html' with tickets=tickets %}
-    {% include 'partials/pagination.html' with tickets=tickets %}
+    {% include 'partials/pagination.html' with objects=tickets %}
   
 {% endblock %}

@@ -173,7 +173,8 @@
       <div class="col-span-2 lg:col-span-4 flex justify-center mt-6">
         <div class="flex items-center space-x-4">
           <!-- Update or Save Ticket button -->
-          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+          
+          <button type="submit" id="ticket-submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
             {% if form.instance.id %} Update Ticket {% else %} Save Ticket {% endif %}
           </button>
         </div>

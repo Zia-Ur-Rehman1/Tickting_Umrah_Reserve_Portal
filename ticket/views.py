@@ -6,7 +6,7 @@ from .forms import TicketForm
 from django.utils.timezone import activate
 from django.db.models import Q, F, ExpressionWrapper, fields
 from django.contrib import messages
-from datetime import timedelta, datetime
+from datetime import timedelta
 from django.utils import timezone
 from .ledger_views import *
 from .supplier_views import *

@@ -24,9 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECRET_KEY = 'django-insecure-6h-m17m9oqg7(ewcwpklt9*^gt@9&+i4eb4i)vn39(x(s-dw+t'
 SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
-
-ALLOWED_HOSTS = []
+DEBUG = False
 
 
 # Application definition
@@ -37,12 +35,13 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'ticket',
     'tailwind',
     'theme',
-    'django_browser_reload',
-    "debug_toolbar",
+    # 'django_browser_reload',
+    # "debug_toolbar",
 ]
 
 TAILWIND_APP_NAME = 'theme'
@@ -52,11 +51,11 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
+    # "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'ticket_management.urls'
@@ -87,12 +86,11 @@ INTERNAL_IPS = [
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql",
-        
-        "NAME": os.getenv('DB_NAME'),
-        "USER": os.getenv('DB_USER'),
-        "PASSWORD": os.getenv('DB_PASSS'),
+        "NAME": os.getenv('NAME'),
+        "USER": os.getenv('USER'),
+        "PASSWORD": os.getenv('PASSWORD'),
         "HOST": os.getenv('HOST'),
-        "PORT": os.getenv('PORT'),
+        "PORT": "18253",
     }
 }
 
@@ -131,16 +129,21 @@ USE_TZ = True
 STATIC_URL = 'static/'
 MEDIA_URL= '/images/'
 STATICFILES_DIRS = [
-  BASE_DIR / "./ticket/static",
+  BASE_DIR / "ticket/static",
+  BASE_DIR / "theme/static",
 ]
-STATIC_ROOT = BASE_DIR.parent / "static"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS= ['https://app-jvll7wszdq-uc.a.run.app']
+CSRF_TRUSTED_ORIGINS= ['https://app-jvll7wszdq-uc.a.run.app','https://travel-account.up.railway.app', 'https://django-tailwind-production.up.railway.app']
 TAILWIND_CSS_PATH = 'css/dist/styles.css'
 USE_THOUSAND_SEPARATOR = True
 LOGIN_URL = '/ticket/login/'

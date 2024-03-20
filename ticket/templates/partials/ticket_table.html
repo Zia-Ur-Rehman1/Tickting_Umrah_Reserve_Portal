@@ -13,8 +13,8 @@
               {% comment %} <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Return Date</th> {% endcomment %}
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Airline</th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Supplier</th>
-              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Purchase</th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Customer</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Purchase</th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Sale</th>
               <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">Action</th>
             </tr>
@@ -37,8 +37,8 @@
                 {% comment %} <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.return_date|date:"d-M" }}</td> {% endcomment %}
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.airline }}</td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.supplier.name }}</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.purchase }}</td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.customer.name }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.purchase }}</td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.sale }}</td>
                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
 
