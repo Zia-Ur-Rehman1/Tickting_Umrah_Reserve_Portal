@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load static%}
 {% block content %}
-  <div class="isolate bg-white px-6 py-6 sm:py-6 lg:px-8 add-bg overflow-auto h-screen">
+  <div class="isolate bg-white px-6 py-6 sm:py-6 lg:px-8 add-bg overflow-auto h-3/4">
     {% if form.errors %}
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
       <strong class="font-bold">Oops! There was an error.</strong>
@@ -13,11 +14,12 @@
       </ul>
     </div>
   {% endif %}
-    <div class="h-full w-full bg-blue-300 p-10 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100">
+    <div class="h-3/4 w-full bg-blue-300 p-10 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100">
     <div class="mx-auto max-w-2xl text-center">
       <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{% if form.instance.id %} Update Ticket {% else %} Create Ticket {% endif %}</h1>
     </div>
     <form  id="ticket-form" enctype="multipart/form-data" class="mx-auto mt-16  sm:mt-20">
+      <img id="loading-gif" src="{% static 'ticket/images/airplane.gif' %}" class="hidden fixed inset-0  items-center justify-center  translate-x-full translate-y-20  rounded-lg shadow-lg mix-blend-color-burn h-3/4" alt="Loading...">
       {% csrf_token %}
       <input type="hidden" id="user" name="user" value="{{ request.user.id }}">
       {% if form.instance.id %}
@@ -96,7 +98,6 @@
             {% endfor %}
           </select>
         </div>
-
         <!-- CREATED AT Field -->
         <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
           <label for="created_at" class="block text-sm font-semibold leading-6 text-gray-900">Created At</label>
@@ -152,23 +153,6 @@
               </select>
           </div>
       </div>
-{% comment %}     
-    {% if request.user.id == 3%}
-      <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
-        <label for="narration" class="block text-sm font-semibold leading-6 text-gray-900">Narration</label>
-        <div class="mt-2.5">
-          <input type="text" name="narration" id="narration" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.return_date %}{{ form.instance.return_date|date:'Y-m-d' }}{% endif %}">
-        </div>
-      </div>
-    
-      <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
-        <label for="number" class="block text-sm font-semibold leading-6 text-gray-900">Number</label>
-        <div class="mt-2.5">
-          <input type="number" name="number" id="number"  autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.return_date %}{{ form.instance.return_date|date:'Y-m-d' }}{% endif %}">
-        </div>
-      </div>
-    {% endif%}
-       {% endcomment %}
       </div>
       <div class="col-span-2 lg:col-span-4 flex justify-center mt-6">
         <div class="flex items-center space-x-4">
@@ -178,10 +162,10 @@
           </button>
         </div>
       </div>
-      
     </div> <!--Grid End-->
   </div>
     </div>
+    
      </form>
      
     </div>

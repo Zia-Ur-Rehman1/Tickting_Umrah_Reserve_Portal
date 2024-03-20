@@ -1,6 +1,6 @@
 {% load static%}
 <nav
-  class="flex-no-wrap relative flex w-full items-center justify-between bg-[#FBFBFB] py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
+  class="flex-no-wrap  rounded-lg relative  flex w-full items-center justify-between bg-[#F7F7F7] py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
   <div class="flex w-full flex-wrap items-center justify-between px-3">
     <!-- Hamburger button for mobile view -->
     <button
@@ -54,52 +54,66 @@
       <ul
         class="list-style-none mr-auto flex flex-col pl-0 lg:flex-row"
         data-te-navbar-nav-ref>
-        <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
+        <li class="mb-4 lg:mb-0 lg:pr-2 flex items-center " data-te-nav-item-ref>
           <!-- Dashboard link -->
           <a
             class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
             href="{% url 'index' %}"
             data-te-nav-link-ref
-            >Tickets</a
-          >
+            >Tickets
+          </a>
+          <img src="{% static 'ticket/images/tickets.png' %}" alt="TI" class="object-cover h-5 w-auto"></img>
+        </li>
+        <li class="mb-4 lg:mb-0 lg:pr-2 flex items-center " data-te-nav-item-ref>
+          <!-- Dashboard link -->
+          <a
+            class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
+            href="{% url 'visa_list' %}"
+            data-te-nav-link-ref
+            >Visa
+          </a>
+          <img src="{% static 'ticket/images/visa.png' %}" alt="TI" class="object-cover h-5 w-auto"></img>
         </li>
         <!-- Team link -->
-        <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
+        <li class="mb-4 lg:mb-0 lg:pr-2 flex items-center" data-te-nav-item-ref>
           <a
             class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
             href="{% url 'ledger_list' %}"
             data-te-nav-link-ref
-            >Ledger</a
-          >
+            >Ledger</a>
+          <img src="{% static 'ticket/images/ledger.png' %}" alt="TI" class="object-cover h-5 w-auto"></img>
+
         </li>
         <!-- Projects link -->
-        <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
+        <li class="mb-4 lg:mb-0 lg:pr-2 flex items-center" data-te-nav-item-ref>
           <a
             class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
             href="{% url 'supplier_list' %}"
             data-te-nav-link-ref
-            >Suppliers</a
-          >
+            >Suppliers</a>
+          <img src="{% static 'ticket/images/supplier.png' %}" alt="TI" class="object-cover h-5 w-auto"></img>
         </li>
-        <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
+        <li class="mb-4 lg:mb-0 lg:pr-2 flex items-center" data-te-nav-item-ref>
           <a
             class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
             href="{% url 'customer_list' %}"
             data-te-nav-link-ref
-            >Customers</a
-          >
+            >Customers</a>
+          <img src="{% static 'ticket/images/customer.png' %}" alt="TI" class="object-cover h-5 w-auto"></img>
+
         </li>
-        <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
+        <li class="mb-4 lg:mb-0 lg:pr-2 flex items-center" data-te-nav-item-ref>
           <!-- Dashboard link -->
           <a
             class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
             href="{% url 'generate_pdf' %}"
             data-te-nav-link-ref
-            >Get PDF</a
-          >
+            >Get PDF</a>
+          <img src="{% static 'ticket/images/pdf.png' %}" alt="TI" class="object-cover h-5 w-auto"></img>
+
         </li>
         <li class="mb-4 lg:mb-0 lg:pr-2" >
-       <button id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider" class="text-white bg-blue-700 hover:bg-blue-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Create<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+       <button id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider" class="text-white bg-blue-700 hover:bg-blue-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center " type="button">Create<svg class="w-2 h-2 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
           </svg>
           </button>
@@ -117,7 +131,7 @@
           <a href="{% url 'customer_create' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Customer</a>
         </li>
         <li>
-        <a href="{% url 'ledger_create' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Ledger</a>
+        <a href="{% url 'ledger_create' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Payment</a>
       </li>
       <li>
         <a href="{% url 'visa_create' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Visa</a>
