@@ -50,7 +50,7 @@
   <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
     <label for="start_at" class="block text-sm font-semibold leading-6 text-gray-900">Created At</label>
     <div class="mt-2.5">
-      <input type="date" name="start_at" id="start_at" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required >
+      <input type="date" required name="start_at" id="start_at" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required >
       {% comment %} '%d-%m-%Y'  %d %b %Y{% endcomment %}
     </div>
   </div>
@@ -59,17 +59,19 @@
   <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
     <label for="end_at" class="block text-sm font-semibold leading-6 text-gray-900">Created At</label>
     <div class="mt-2.5">
-      <input type="date" name="end_at" id="end_at" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required >
+      <input type="date" required name="end_at" id="end_at" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required >
     </div>
   </div>
-    
+
+  <div class="col-span-2 mt-5 flex justify-center">
 <button
 type="submit"
-class="col-span-2 mt-8 ml-1 inline-block rounded bg-primary  px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+class=" bg-white text-blue-500 px-4 py-2 rounded hover:bg-blue-500 hover:text-white"
 data-te-ripple-init
 data-te-ripple-color="light">
 Generate PDF
 </button>
+</div>
 
 </div> 
 

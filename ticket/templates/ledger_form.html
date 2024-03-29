@@ -45,7 +45,7 @@
             class="block w-full form-control rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           >
             <option></option>
-            {% for supplier in suppliers %}
+            {% for supplier in form.supplier.field.queryset %}
             <option value="{{ supplier.id }}" {% if supplier.id == form.initial.supplier %}selected{% endif %}>{{ supplier.name }}</option>
             {% endfor %}
           </select>
@@ -65,7 +65,7 @@
             class="block  form-control w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           >
             <option></option>
-            {% for customer in customers %}
+            {% for customer in form.customer.field.queryset %}
             <option value="{{ customer.id }}" {% if customer.id == form.initial.customer %}selected{% endif %}>{{ customer.name }}</option>
             {% endfor %}
           </select>
