@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "flowbite": "^2.3.0",
     "jquery": "^3.7.1",
     "postcss-simple-vars": "^7.0.1",
     "tw-elements": "^1.1.0"

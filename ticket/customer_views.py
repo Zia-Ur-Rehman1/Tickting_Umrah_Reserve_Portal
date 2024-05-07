@@ -7,9 +7,9 @@ from django.db.models.functions import Coalesce
 from django.contrib.auth.decorators import login_required
 
 def customer_list(request):
-    total_sale = Ticket.objects.filter(customer=OuterRef('pk')).values('customer').annotate(sum=Coalesce(Sum('sale'), Decimal(0))).values('sum')
-    total_payment = Ledger.objects.filter(customer=OuterRef('pk')).values('customer').annotate(sum=Coalesce(Sum('payment'), Decimal(0))).values('sum')
-    customers = Customer.objects.filter(user=request.user).annotate(
+    total_sale = Ticket.objects.filter(user=request.user).filter(customer=OuterRef('pk')).values('customer').annotate(sum=Coalesce(Sum('sale'), Decimal(0))).values('sum')
+    total_payment = Ledger.objects.filter(user=request.user).filter(customer=OuterRef('pk')).values('customer').annotate(sum=Coalesce(Sum('payment'), Decimal(0))).values('sum')
+    customers = Customer.objects.filter(user=request.user).exclude(name='CC').annotate(
         total_purchase=Coalesce(Subquery(total_sale, output_field=DecimalField()), Decimal(0)),
         total_payment=Coalesce(Subquery(total_payment, output_field=DecimalField()), Decimal(0)),
         balance=Coalesce(F('opening_balance'), Decimal(0)) + F('total_purchase') - F('total_payment')

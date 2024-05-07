@@ -1,0 +1,8 @@
+
+{% load crispy_forms_tags %}
+{% block content%}
+
+<form method="POST"  action="{% url 'profit' %}" class="mx-auto  ">
+    {% crispy form %}
+</form>
+{% endblock %}

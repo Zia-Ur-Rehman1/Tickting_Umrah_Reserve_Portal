@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content%}
+<form method="post">
+    <div class="container mx-10 my-10">
+        <h5 class="text-lg font-bold tracking-tight flex justify-center mb-10 text-gray-900 sm:text-xl mt-5">Today's Riyal Price: {{riyal_rate}}</h5>
+  <div class=" grid lg:grid-cols-6 md:grid-cols-6 gap-x-8 gap-y-6 sm:grid-cols-2">
+    {% crispy form %}
+       
+</div>
+    {{ formset.management_form }}
+    <div class=" grid lg:grid-cols-6 md:grid-cols-6 gap-x-8 gap-y-6 sm:grid-cols-2">
+    {% for form in formset %}
+    {{ form.id }}    
+    {{ form.user }}    
+    {{ form.pkr_price.as_hidden }}    
+    {{ form.riyal_rate.as_hidden }}    
+    {{ form.room_type|as_crispy_field }}
+    {{ form.riyal_price|as_crispy_field }}
+
+    {% if forloop.counter0 == 4 %}
+    {{ form.date_from|as_crispy_field }}
+    {{ form.date_to|as_crispy_field }}
+    {% endif %}
+        
+    {% endfor %}
+</div>
+    <div class="flex justify-center">
+    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8">Save</button>
+    </div>
+</div>
+
+</form>
+{% endblock%}

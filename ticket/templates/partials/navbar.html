@@ -10,6 +10,7 @@
       data-te-target="#navbarSupportedContent1"
       aria-controls="navbarSupportedContent1"
       aria-expanded="false"
+      data-collapse-toggle="navbar-default"
       aria-label="Toggle navigation">
       <!-- Hamburger icon -->
       <span class="[&>svg]:w-7">
@@ -26,13 +27,13 @@
       </span>
     </button>
     <!-- Collapsible navigation container -->
-    <div
+    <div 
       class="!visible hidden flex-grow basis-[100%] items-center lg:!flex lg:basis-auto"
-      id="navbarSupportedContent1"
+      id="navbar-default"
       data-te-collapse-item>
       <!-- Logo -->
       <a
-      class="ml-2  pb-3 text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0"
+      class="ml-2  text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0"
       href="{% url 'index' %}">
       {% if user.id == 2%}
         <img
@@ -52,10 +53,10 @@
       {% endif %}
       <!-- Left navigation links -->
       <ul
-        class="list-style-none mr-auto flex flex-col pl-0 lg:flex-row"
-        data-te-navbar-nav-ref>
+        class="list-style-none  mr-auto flex flex-col pl-0 lg:flex-row"
+        data-te-navbar-nav-ref >
         <li class="mb-4 lg:mb-0 lg:pr-2 flex items-center " data-te-nav-item-ref>
-          <!-- Dashboard link -->
+          <!-- Tickets link -->
           <a
             class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
             href="{% url 'index' %}"
@@ -65,7 +66,7 @@
           <img src="{% static 'ticket/images/tickets.png' %}" alt="TI" class="object-cover h-5 w-auto"></img>
         </li>
         <li class="mb-4 lg:mb-0 lg:pr-2 flex items-center " data-te-nav-item-ref>
-          <!-- Dashboard link -->
+          <!-- Visa link -->
           <a
             class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
             href="{% url 'visa_list' %}"
@@ -74,17 +75,27 @@
           </a>
           <img src="{% static 'ticket/images/visa.png' %}" alt="TI" class="object-cover h-5 w-auto"></img>
         </li>
-        <!-- Team link -->
+        <!-- Hotel link -->
+        <li class="mb-4 lg:mb-0 lg:pr-2 flex items-center " data-te-nav-item-ref>
+          <a
+            class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
+            href="{% url 'hotel_list' %}"
+            data-te-nav-link-ref
+            >Hotels
+          </a>
+          <img src="{% static 'ticket/images/hotel.png' %}" alt="TI" class="object-cover h-5 w-auto"></img>
+        </li>
+        <!-- Ledger link -->
         <li class="mb-4 lg:mb-0 lg:pr-2 flex items-center" data-te-nav-item-ref>
           <a
             class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
             href="{% url 'ledger_list' %}"
             data-te-nav-link-ref
-            >Ledger</a>
+            >Payment</a>
           <img src="{% static 'ticket/images/ledger.png' %}" alt="TI" class="object-cover h-5 w-auto"></img>
 
         </li>
-        <!-- Projects link -->
+        <!-- Supplier link -->
         <li class="mb-4 lg:mb-0 lg:pr-2 flex items-center" data-te-nav-item-ref>
           <a
             class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
@@ -103,7 +114,7 @@
 
         </li>
         <li class="mb-4 lg:mb-0 lg:pr-2 flex items-center" data-te-nav-item-ref>
-          <!-- Dashboard link -->
+          <!-- GetPDf link -->
           <a
             class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
             href="{% url 'generate_pdf' %}"
@@ -112,6 +123,24 @@
           <img src="{% static 'ticket/images/pdf.png' %}" alt="TI" class="object-cover h-5 w-auto"></img>
 
         </li>
+        <li class="mb-4 lg:mb-0 lg:pr-2 flex items-center" data-te-nav-item-ref>
+          <!-- Get Voucher -->
+          <a
+            class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
+            href="{% url 'vouchers' %}"
+            data-te-nav-link-ref
+            >Vouchers</a>
+
+        </li>
+        <!-- Proft link -->
+        {% comment %} <li class="mb-4 lg:mb-0 lg:pr-2 flex items-center" data-te-nav-item-ref>
+          <a
+            class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
+            href="{% url 'profit' %}"
+            data-te-nav-link-ref
+            >Profit</a>
+          <img src="{% static 'ticket/images/profit.png' %}" alt="TI" class="object-cover h-5 w-auto"></img>
+        </li> {% endcomment %}
         <li class="mb-4 lg:mb-0 lg:pr-2" >
        <button id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider" class="text-white bg-blue-700 hover:bg-blue-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center " type="button">Create<svg class="w-2 h-2 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
@@ -137,8 +166,15 @@
         <a href="{% url 'visa_create' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Visa</a>
       </li>
       <li>
-        <a href="{% url 'rialprice_create' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Rial Price</a>
+        <a href="{% url 'riyalprice_create' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Rial Price</a>
       </li>
+      <li>
+        <a href="{% url 'add_hotel' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Hotel </a>
+      </li>
+      <li>
+        <a href="{% url 'create_voucher' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Voucher </a>
+      </li>
+     
       </ul>
   </div>
 </li>
@@ -185,7 +221,7 @@
           <!-- Notification counter -->
           <span
             class="absolute -mt-4 ml-2.5 rounded-full px-[0.35em] py-[0.15em] text-[1rem] font-bold leading-none text-red-500"
-            >{{urgent_ticket}}</span
+            >{{urgent_ticket|length}}</span
           >
         </a>
         

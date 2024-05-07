@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for voucher in vouchers %}
+
+<div class="max-w-screen-xl my-5 mx-auto">
+    <!-- Card container -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden flex relative">
+        <!-- Left section (20%) -->
+        <!-- Icon -->
+        <div class=" w-6 h-6 absolute top-0 right-0 m-2  inline-block text-center ">
+            <div>
+                <button type="button" id="voucher-btn-{{voucher.id}}" data-dropdown-toggle="voucher-menu-{{voucher.id}}" class="-m-2 p-2 rounded-full flex items-center text-gray-400 hover:text-gray-600 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>
+            </div>
+        
+            <!-- Dropdown panel, show/hide based on dropdown state. -->
+            <div id="voucher-menu-{{voucher.id}}" class="origin-top-right absolute left-0 mt-2 w-15 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
+                <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="voucher-btn-{{voucher.id}}">
+                    <a href="{% url 'update_voucher' pk=voucher.id %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Edit</a>
+                  <a href="#" id="voucher-del" data-tid="{{voucher.id}}" data-model="voucher"  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"> Del</a>
+                </div>
+            </div>
+        </div>
+                
+        
+        <div class="w-1/5 bg-gray-100 px-6">
+            <h3 class="font-bold text-lg text-center mb-4">Visas</h3>
+            <!-- Display associated visas -->
+            <div class="flex flex-col items-center">
+                {% for visa in voucher.visas.all %}
+
+                <div class="mb-4 flex justify-between">
+                    <div class="text-sm font-medium text-gray-800">{{ visa.pass_name }}</div>
+                    <div class="text-sm text-gray-600">/ {{ visa.pass_num }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Right section (80%) -->
+        <div class="flex-grow bg-gray-200 px-6">
+            <!-- Display associated hotels -->
+            <div class="mb-8">
+                <h3 class="font-bold text-lg text-center mb-4">Hotels</h3>
+                {% for hotel_booking in voucher.hotelbooking_set.all %}
+                <div class="mb-4">
+                    <table class="table-auto border-collapse w-full">
+                        <tbody>
+                            <tr class="text-left">
+                                <td class="w-1/6 text-sm font-semibold text-gray-700"><span class="font-bold">City:</span> {{ hotel_booking.hotel.get_city_display }}</td>
+                                <td class="w-1/4 text-sm font-semibold text-gray-700"><span class="font-bold">Hotel:</span> {{ hotel_booking.hotel.hotel_name }}</td>
+                                <td class="w-32 text-sm font-semibold text-gray-700"><span class="font-bold">Room:</span> {{ hotel_booking.room.get_room_type_display }}</td>
+                                <td class="w-40 text-sm text-gray-600"><span class="font-bold">Check-in:</span> {{ hotel_booking.check_in }}</td>
+                                <td class="w-40 text-sm text-gray-600"><span class="font-bold">Check-out:</span> {{ hotel_booking.check_out }}</td>
+                                <td class="w-1/12  text-sm text-gray-600"><span class="font-bold">Nights:</span> {{ hotel_booking.nights }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% endfor %}
+            </div>
+            <h3 class="font-semibold text-sm text-center mb-4">
+                Need Company Transport: 
+                <span class="font-bold {% if voucher.transport %}text-green-500{% else %}text-red-500{% endif %}">
+                    {{ voucher.transport }}
+                </span>
+            </h3>
+            
+
+            <!-- Display associated trips -->
+            <div>
+                <h3 class="font-bold text-lg text-center mb-4">Trips</h3>
+                {% for trip in voucher.trip.all %}
+                <div class="mb-4">
+                    <table class="table-auto border-collapse w-full">
+                        <tbody>
+                            <tr class="text-left">
+                                <td class="w-1/4 text-sm font-semibold text-gray-700"><span class="font-bold">Flight:</span> {{ trip.flight }}</td>
+                                <td class="w-1/4 text-sm font-semibold text-gray-700"><span class="font-bold">Sector:</span> {{ trip.sector }}</td>
+                                <td class="w-1/4 text-sm font-semibold text-gray-700"><span class="font-bold">Dep:</span> {{ trip.departure }}</td>
+                                <td class="w-1/4 text-sm font-semibold text-gray-700"><span class="font-bold">Arr:</span> {{ trip.arrival }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}

@@ -6,8 +6,8 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.shortcuts import  redirect, render
 import pandas as pd
-import numpy as np
 from django.db.models import Q
+from django.utils import timezone
 def generateCSV(request):
     if request.method == 'POST':
   
@@ -93,7 +93,7 @@ def upload_csv(request):
         if form.is_valid():
             file = request.FILES["file"]
             print('File Uploaded and is processing.....')
-            df = choudry_travels_csv(file)
+            df, df2 = choudry_travels_csv(file)
             print('File Processed Move to Model Processing.....')
             
             missing, mismatched = ticket_model(df)
@@ -113,7 +113,7 @@ def upload_csv(request):
 
 def hasnain_travels_mainlist_csv(file):
     df= pd.read_csv(file, skiprows=2, usecols=list(range(12))).dropna(how='all')
-    df =df.replace(np.nan, '')
+    # df =df.replace(np.nan, '')
     df['PURCHASE'] = pd.to_numeric(df['PURCHASE'].str.replace(',', ''), errors='coerce').fillna(0).astype(int)
     df['DEAL'] = pd.to_numeric(df['DEAL'].str.replace(',', ''), errors='coerce').fillna(0).astype(int)
     df = df.map(lambda x: x.strip() if isinstance(x, str) else x)
@@ -131,7 +131,7 @@ def hasnain_travels_mainlist_csv(file):
 
     
 def choudry_travels_csv(file):
-    df2= pd.read_csv(file, skiprows=4).dropna(how='all')
+    df2= pd.read_csv(file, skiprows=[0, 1, 2, 3, 5,6,7], header=0).dropna(how='all')
     df2['PNR'] = df2['Narration'].apply(lambda x: (x.split('-')[3].strip() if pd.notna(x) and 'VISA VOUCHER' not in x and len(x.split('-')) >= 4 else None) or (x.split('-')[-1].strip() if pd.notna(x) and 'VISA VOUCHER' in x else None))
     df2['Debit'] = pd.to_numeric(df2['Debit'].str.replace(',', ''), errors='coerce').fillna(0).astype(float)
     df2['Credit'] = pd.to_numeric(df2['Credit'].str.replace(',', ''), errors='coerce').fillna(0).astype(float)
@@ -141,7 +141,7 @@ def choudry_travels_csv(file):
     result_df2['Balance'] = result_df2['Debit'] - result_df2['Credit']
     result_df2['PNR'] = result_df2['PNR'].str.strip()
     # result_df2 = result_df2[['PNR', 'Balance']]
-    return result_df2
+    return result_df2,df2
 def ticket_model(df):
     model_data = Ticket.objects.filter(supplier=3).values('pnr', 'purchase')
     print('Got Model Data.....')
@@ -163,10 +163,11 @@ def ticket_model(df):
     
     # merged_df['difference'] = merged_df['purchase'] - merged_df['Balance']
     return missing_pnr_df, mismatched_rows
-def compare_csv(HT,CT):
+    
+def compare_csv(df,df2):
     result_df = df.groupby('PNR')['Purchase'].sum().reset_index()
     
-    merged_df = result_df.merge(result_df2, left_on='PNR', right_on='PNR', how='inner')
+    merged_df = result_df.merge(df2, left_on='PNR', right_on='PNR', how='inner')
     matched_rows = merged_df[merged_df['PNR'] == merged_df['PNR']]
     matched_rows['Purchase'] = pd.to_numeric(matched_rows['Purchase'], errors='coerce')
     matched_rows['Balance'] = pd.to_numeric(matched_rows['Balance'], errors='coerce')
@@ -174,40 +175,34 @@ def compare_csv(HT,CT):
     mismatched_data = mismatched_rows[['PNR', 'Purchase', 'Balance']]
     mismatched_data.to_csv('mismatched_data.csv', index=False)
     
-def compare_pnr(HT,CT):
-    merged_result = pd.merge(result_df, result_df2, on='PNR', how='right', indicator=True)
-
-    missing_pnr_result_df2 = merged_result[merged_result['_merge'] == 'right_only'][result_df2.columns]
-    missing_pnr_result_df2.to_csv('missing_pnr_result_df2.csv', index=False)
-
-def process_name(name):
-    parts = name.replace('MR', '').replace('MRS', '').split()
-    if len(parts) == 2:
-        return ' '.join(parts[::-1])
-    elif len(parts) == 3:
-        return ' '.join(parts[-2:][::-1] + [parts[0]])
-    else:
-        return name
+def main_vs_ct(df,df2):
+    df.rename(columns={'PNR/V#': 'PNR'}, inplace=True)
+    merged_df = pd.merge(df, df2, on='PNR')
+    missing_pnr_df = df[~df['PNR'].isin(merged_df['PNR'])]
+    return missing_pnr_df
     
-def travel_point():
-    df2= pd.read_csv('TP.csv', skiprows=12).dropna(how='all')
-    df2['Ticket No.']= df2['Ticket No.'].dropna()
-    df2['Ticket No.']= df2['Ticket No.'].iloc[:54]
-# def travel_point(file):
-# df = pd.read_csv('TP.csv', skipinitialspace=True, usecols=[2,6], skiprows=1).dropna(how='all')
-# df = df[df['TRAVEL POINT TICKETS'].notna()]
-# df2 = pd.read_csv('TP2.csv', skipinitialspace=True, usecols=[2,6], skiprows=1).dropna(how='all')
-# df2 = df2[df2['TRAVEL POINT TICKETS'].notna()]
-# result_df = pd.concat([df, df2], ignore_index=True)
-# result_df.rename(columns={'TRAVEL POINT TICKETS': 'Purchase'}, inplace=True)
-# result_df.rename(columns={'pax': 'Passenger'}, inplace=True)
-# result_df = result_df[~result_df['Passenger'].str.contains('BALANCE')]
-# result_df['Purchase'] = pd.to_numeric(result_df['Purchase'], errors='coerce').abs()
+def ct_vs_main(df,df2):
+    df.rename(columns={'PNR/V#': 'PNR'}, inplace=True)
+    merged_df = pd.merge(df, df2, on='PNR')
+    missing_pnr_df = df2[~df2['PNR'].isin(merged_df['PNR'])]
+    return missing_pnr_df
 
-# df3 = pd.read_csv('TPorg.csv', skipinitialspace=True, usecols=[4,10], skiprows=12).dropna(how='all')
-# df3 = df3.dropna()
-# end_df = pd.concat([result_df, df3], axis=1)
+def software_vs_main(df, month):
+    current_year = timezone.now().year
+    model_data = Ticket.objects.filter(user=2, created_at__year=current_year, created_at__month=month).values('pnr', 'purchase')
+    model_df = pd.DataFrame.from_records(model_data)
+    model_df.rename(columns={'pnr': 'PNR'}, inplace=True)
+    df.rename(columns={'PNR/V#': 'PNR'}, inplace=True)
+    merged_df = pd.merge(model_df, df, on='PNR')
+    missing_pnr_df = model_df[~model_df['PNR'].isin(merged_df['PNR'])]
+    return missing_pnr_df
 
-# print(f"HT: {result_df.to_string()} TP:  {df3.to_string()}")
-# df3['Passenger'] = df['Passenger'].apply(process_name)
-
+def main_vs_software(df, month):
+    current_year = timezone.now().year
+    model_data = Ticket.objects.filter(user=2,created_at__year=current_year, created_at__month=month).values('pnr', 'purchase')
+    model_df = pd.DataFrame.from_records(model_data)
+    model_df.rename(columns={'pnr': 'PNR'}, inplace=True)
+    df.rename(columns={'PNR/V#': 'PNR'}, inplace=True)
+    merged_df = pd.merge(df, model_df, on='PNR')
+    missing_pnr_df = df[~df['PNR'].isin(merged_df['PNR'])]
+    return missing_pnr_df

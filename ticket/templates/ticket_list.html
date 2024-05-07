@@ -1,15 +1,22 @@
 <!-- ticket_list.html -->
 {% extends 'base.html' %}
 
-{% block title %}Tickets{% endblock %}
-
+{% block page_title %}Tickets{% endblock %}
 {% block content %}
-
+<div class="flex justify-center items-center">
+<a href="{% url 'ticket_create' %}" class="px-4 py-2 text-sm flex justify-end text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">
+  <div class="group flex h-16 w-16 cursor-pointer items-center justify-end rounded-3xl bg-blue-100 p-2 hover:bg-slate-200">
+    <div class="space-y-2">
+        <span class="block h-1 w-8 origin-center rounded-full bg-orange-500 transition-transform ease-in-out group-hover:w-10 group-hover:-translate-y-3  group-hover:-translate-x-1"></span>
+        <span class="block h-1 w-10 origin-center rounded-full bg-slate-500 transition-transform ease-in-out group-hover:rotate-90 group-hover:-translate-x-1 group-hover:-translate-y-1"></span>
+    </div>
+  </div>
+  </a>
+</div>
   <div class="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]" aria-hidden="true">
     <div class="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
   </div>
   <div class="px-4 sm:px-6 lg:px-8 ">
     {% include 'partials/ticket_table.html' with tickets=tickets %}
     {% include 'partials/pagination.html' with objects=tickets %}
-  
 {% endblock %}

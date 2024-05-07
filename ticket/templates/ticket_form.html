@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% load static%}
+{% block page_title %}
+{% if form.instance.id %} Update Ticket {% else %} Create Ticket {% endif %}
+{% endblock %}
+
 {% block content %}
   <div class="isolate bg-white px-6 py-6 sm:py-6 lg:px-8 add-bg overflow-auto h-3/4">
     {% if form.errors %}
@@ -18,8 +22,8 @@
     <div class="mx-auto max-w-2xl text-center">
       <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{% if form.instance.id %} Update Ticket {% else %} Create Ticket {% endif %}</h1>
     </div>
-    <form  id="ticket-form" enctype="multipart/form-data" class="mx-auto mt-16  sm:mt-20">
-      <img id="loading-gif" src="{% static 'ticket/images/airplane.gif' %}" class="hidden fixed inset-0  items-center justify-center  translate-x-full translate-y-20  rounded-lg shadow-lg mix-blend-color-burn h-3/4" alt="Loading...">
+    <form  id="{{ form.instance.id|yesno:'update-form,ticket-form' }}" method="POST" enctype="multipart/form-data" class="mx-auto mt-16  sm:mt-20">
+      <img id="loading-gif" src="{% static "ticket/images/airplane.gif" %}" class="hidden fixed inset-0  items-center justify-center  translate-x-full translate-y-20  rounded-lg shadow-lg mix-blend-color-burn h-3/4" alt="Loading...">
       {% csrf_token %}
       <input type="hidden" id="user" name="user" value="{{ request.user.id }}">
       {% if form.instance.id %}
@@ -27,14 +31,14 @@
       {% endif%}
       <div class="grid lg:grid-cols-4 md:grid-cols-3 gap-x-8 gap-y-6 sm:grid-cols-2">
         <!-- PNR Field -->
-        <div class= 'col-span-2 md:col-span-1 lg:col-span-1 '>
+        <div class= "col-span-2 md:col-span-1 lg:col-span-1 ">
           <label for="pnr" class=" block text-sm font-semibold leading-6 text-gray-900">PNR</label>
           <div class="mt-2.5">
             <input type="text" name="pnr" id="pnr" required autocomplete="off"  class=" block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{{ form.instance.pnr }}">
           </div>
         </div>
         <!-- SECTOR Field -->
-        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+        <div class= "col-span-2 md:col-span-1 lg:col-span-1">
           <label for="sector" class="block text-sm font-semibold leading-6 text-gray-900">Sector</label>
           <div class="mt-2.5">
             <input type="text" name="sector" id="sector" autocomplete="off" class="  block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.sector %}{{ form.instance.sector }}{% endif %}">
@@ -42,7 +46,7 @@
         </div>
       
         <!-- PASSENGER Field -->
-        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+        <div class= "col-span-2 md:col-span-1 lg:col-span-1">
           <label for="passenger" class="block text-sm font-semibold leading-6 text-gray-900">Passenger</label>
           <div class="mt-2.5">
             <input type="text" name="passenger" id="passenger" autocomplete="off" class=" block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.passenger %}{{ form.instance.passenger }}{% endif %}">
@@ -50,7 +54,7 @@
         </div>
        
         <!-- AIRLINE Field -->
-        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+        <div class= "col-span-2 md:col-span-1 lg:col-span-1">
           <label for="airline" class="block text-sm font-semibold leading-6 text-gray-900">Airline</label>
           <div class="mt-2.5">
             <input type="text" name="airline" id="airline" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.airline %}{{ form.instance.airline }}{% endif %}">
@@ -99,23 +103,35 @@
           </select>
         </div>
         <!-- CREATED AT Field -->
-        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+        <div class= "col-span-2 md:col-span-1 lg:col-span-1">
           <label for="created_at" class="block text-sm font-semibold leading-6 text-gray-900">Created At</label>
           <div class="mt-2.5">
-            <input type="datetime-local" name="created_at" id="created_at" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{{ form.instance.created_at|date:'Y-m-d\TH:i' }}">
+            <input type="datetime-local" name="created_at" id="created_at" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{{ form.instance.created_at|date:"Y-m-d\TH:i" }}">
           </div>
         </div>
       
         <!-- TRAVEL DATE Field -->
-        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+         <div class= "col-span-2 md:col-span-1 lg:col-span-1">
           <label for="travel_date" class="block text-sm font-semibold leading-6 text-gray-900">Travel Date</label>
           <div class="mt-2.5">
-            <input type="date" name="travel_date" id="travel_date" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.travel_date %}{{ form.instance.travel_date|date:'Y-m-d' }}{% endif %}">
+            <input type="date" name="travel_date" id="travel_date" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.travel_date %}{{ form.instance.travel_date|date:"Y-m-d" }}{% endif %}">
           </div>
-        </div>
-        
+        </div> 
+        <!-- TRAVEL DATE Field -->
+        {% comment %} <div class="col-span-2 md:col-span-1 lg:col-span-1">
+          <label for="travel_date" class="block text-sm font-semibold leading-6 text-gray-900">Travel Date</label>
+          <div class="mt-2.5 relative max-w-sm">
+              <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                  </svg>
+              </div>
+              <input datepicker datepicker-format="dd/mm/yyyy" type="text" name="travel_date" id="travel_date" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date" value="{% if form.instance.travel_date %}{{ form.instance.travel_date|date:'d/m/Y' }}{% endif %}">
+          </div>
+        </div> {% endcomment %}
+
         <!-- Purchase Field-->
-        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+        <div class= "col-span-2 md:col-span-1 lg:col-span-1">
           <label for="purchase" class="block text-sm font-semibold leading-6 text-gray-900">Purchase</label>
           <div class="mt-2.5">
             <input type="text" name="purchase" required id="purchase" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
@@ -125,7 +141,7 @@
 
         
         <!-- Sale Field-->
-        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+        <div class= "col-span-2 md:col-span-1 lg:col-span-1">
           <label for="sale" class="block text-sm font-semibold leading-6 text-gray-900">Sale</label>
           <div class="mt-2.5">
             <input type="text" name="sale" id="sale" required  autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
@@ -135,14 +151,14 @@
 
         
         <!-- Return Date-->
-        <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+        <div class= "col-span-2 md:col-span-1 lg:col-span-1">
           <label for="return_date" class="block text-sm font-semibold leading-6 text-gray-900">Return Date</label>
           <div class="mt-2.5">
-            <input type="date" name="return_date" id="return_date" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.return_date %}{{ form.instance.return_date|date:'Y-m-d' }}{% endif %}">
+            <input type="date" name="return_date" id="return_date" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.return_date %}{{ form.instance.return_date|date:"Y-m-d" }}{% endif %}">
           </div>
         </div>
         <!-- Ticket Type-->
-        <div class='col-span-2 md:col-span-1 lg:col-span-1'>
+        <div class="col-span-2 md:col-span-1 lg:col-span-1">
           <label for="ticket_type" class="block text-sm font-semibold leading-6 text-gray-900">Ticket Type</label>
           <div class="mt-2.5">
               <select name="ticket_type" id="ticket_type" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
@@ -153,7 +169,75 @@
               </select>
           </div>
       </div>
+
+
+    {% if user.id == 3 %}
+
+<!-- Narration Type-->
+    <div class="col-span-2 md:col-span-1 lg:col-span-3">
+      <label for="narration" class="block text-sm font-semibold leading-6 text-gray-900">
+        Narration
+      </label>
+      <div class="mt-2.5">
+        <textarea
+          id="narration"
+          name="narration"
+          rows="1"
+          class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          placeholder="Enter description..."
+        >{{ form.instance.narration }}</textarea>
       </div>
+    </div>
+
+
+    <!-- Excel Id  -->
+    <div class= "col-span-2 md:col-span-1 lg:col-span-1">
+      <label for="excel_id" class="block text-sm font-semibold leading-6 text-gray-900">Excel</label>
+      <div class="mt-2.5">
+        <input type="number" name="excel_id" id="excel_id" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{% if form.instance.excel_id %}{{ form.instance.excel_id }}{% endif %}">
+      </div>
+    </div>
+{%endif%}
+      
+<!-- Issued By Field -->
+<div class="col-span-2 md:col-span-1 lg:col-span-1">
+  <label
+    for="issued_by"
+    class="block text-sm font-semibold leading-6 text-gray-900"
+    >Issued By</label
+  >
+  <div class="mt-2.5"></div>
+  <select
+    name="issued_by"
+    id="issued_id"
+    class="block w-full form-control rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+  >
+  <option value="" disabled selected hidden>Select issued_by</option> 
+    {% for obj in form.issued_by.field.queryset %}
+    <option value="{{ obj.id }}" {% if obj.id == form.initial.obj %}selected{% endif %}>{{ obj.issued_by }}</option>
+    {% endfor %}
+  </select>
+</div>
+</div>
+  {% if user.id == 2 %}
+
+          <!-- Upload file -->
+          <div class ="flex items-center justify-center ">
+          <div class=" flex items-center justify-center  bg-gray-50 py-12 px-4 mt-2 sm:px-6 lg:px-8 rounded-lg w-1/5 h-1/6">
+            <div class="max-w-md w-full space-y-8">
+              <div>
+                <label for="ticket-upload" class="ml-5 px-4 py-2  hover:bg-blue-100 relative cursor-pointer bg-white rounded-lg font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 shadow-lg">
+                  <span class="px-4 py-2">Upload Ticket</span>
+                  <input id="ticket-upload" name="ticket-upload" type="file" accept=".pdf" class="absolute top-[-10px] left-[-50px] file-upload-css opacity-0 cursor-pointer">
+                </label>
+                <p id="file-name" class=" pt-2 pl-5">or drag and drop</p>
+                <p class="text-xs text-gray-500 pl-5">Pdf Only</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {%endif%}
+
       <div class="col-span-2 lg:col-span-4 flex justify-center mt-6">
         <div class="flex items-center space-x-4">
           <!-- Update or Save Ticket button -->

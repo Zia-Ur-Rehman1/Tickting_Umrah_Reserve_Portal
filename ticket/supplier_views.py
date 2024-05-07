@@ -6,10 +6,10 @@ from decimal import Decimal
 from django.contrib.auth.decorators import login_required
 from django.db.models.functions import Coalesce
 def supplier_list(request):
-    total_purchase = Ticket.objects.filter(supplier=OuterRef('pk')).order_by().values('supplier').annotate(sum=Coalesce(Sum('purchase'), Decimal(0))).values('sum')
-    total_payment = Ledger.objects.filter(supplier=OuterRef('pk')).order_by().values('supplier').annotate(sum=Coalesce(Sum('payment'), Decimal(0))).values('sum')
+    total_purchase = Ticket.objects.filter(user=request.user).filter(supplier=OuterRef('pk')).order_by().values('supplier').annotate(sum=Coalesce(Sum('purchase'), Decimal(0))).values('sum')
+    total_payment = Ledger.objects.filter(user=request.user).filter(supplier=OuterRef('pk')).order_by().values('supplier').annotate(sum=Coalesce(Sum('payment'), Decimal(0))).values('sum')
 
-    suppliers = Supplier.objects.filter(user=request.user).annotate(
+    suppliers = Supplier.objects.filter(user=request.user).exclude(name='CC').annotate(
         total_purchase=Coalesce(Subquery(total_purchase, output_field=DecimalField()), Decimal(0)),
         total_payment=Coalesce(Subquery(total_payment, output_field=DecimalField()), Decimal(0)),
         balance=Coalesce(F('opening_balance'), Decimal(0)) + F('total_purchase') - F('total_payment')

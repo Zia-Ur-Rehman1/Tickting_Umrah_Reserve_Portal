@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content%}
+<div class="h-full mt-10  w-full bg-teal-200 p-10 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100">
+
+<form method="post">
+  <div class=" grid lg:grid-cols-6 md:grid-cols-6 gap-x-8 gap-y-6 sm:grid-cols-2">
+    {% crispy form %}
+  </div>
+</form>
+<div>
+  <script>
+    $(document).ready(function () {
+
+        $("#supplier_id").select2({
+            placeholder: "Select a Supplier",
+            allowClear: true,
+            theme: "classic"
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://pkdeposit.newchoudhary.com/all-statements?from_date=2024-04-01&to_date=2024-04-30&pagination=1000
+HostUrl=https://pkdeposit.newchoudhary.com/all-statements/export?account_id=5031&posting_date_from=2024-04-01&posting_date_to=2024-04-30&pagination=1000&page=0&pdf=false

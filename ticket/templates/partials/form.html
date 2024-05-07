@@ -1,4 +1,8 @@
 {% extends "base.html" %}
+{% block page_title %}
+  {% if form.instance.id %}Update {{form.get_model_name}}  {%else%} Create {{form.get_model_name}}  {% endif %}
+{% endblock %}
+
 {% block content %}
   <div class="isolate bg-white add-bg ">
     {% if form.errors %}
@@ -51,7 +55,7 @@
               {% if form.instance.id %} Update {% else %} Save  {% endif %}
             </button>
             <button type="submit" name="save_and_add_another" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-              {% if form.instance.id %} Update and Add Another {% else %} Save  and Add Another {% endif %}
+              {% if form.instance.id %} Add Another {% else %}Add Another {% endif %}
             </button>
 
 

@@ -36,7 +36,9 @@
               <th scope="col" class="px-6 py-3">
                 Passenger
               </th>
-            
+              <th scope="col" class="px-6 py-3">
+                Client
+              </th>
               <th scope="col" class="px-6 py-3">
                   Debit
               </th>
@@ -62,11 +64,13 @@
                       {# Ticket Data #}
                       <td class="px-6 py-4 ">{{ entry.created_at|date:"d M h:i a" }}</td>
                       <td class="px-6 py-4 ">{{ entry.pnr }}</td>
-                      <td class="px-6 py-4 ">{{ entry.passenger }}</td>
+                      <td class="px-6 py-4 ">{{ entry.passenger }} </td>
                         {% if model_name == 'supplier'%}
+                          <td class="px-6 py-4 ">{{ entry.customer__name }}</td>
                           <td class="px-6 py-4 text-red-500">Rs: {{ entry.purchase }}</td>
                         {% else%}
-                          <td class="px-6 py-4 text-red-500">Rs: {{ entry.sale }}</td>
+                        <td class="px-6 py-4 ">{{ entry.supplier__name }}</td>
+                        <td class="px-6 py-4 text-red-500">Rs: {{ entry.sale }}</td>
                         {% endif%}
                       <td class="px-6 py-4"></td> 
                       <td class="px-6 py-4 ">Rs: {{entry.total}}</td>  
@@ -84,8 +88,10 @@
                       <td class="px-6 py-4 ">{{ entry.passenger }}</td>
                       <td class="px-6 py-4"></td> 
                         {% if model_name == 'supplier'%}
+                          <td class="px-6 py-4 ">{{ entry.customer__name }}</td>
                           <td class="px-6 py-4 text-green-500">Rs: {{ entry.purchase }}</td>
                         {% else%}
+                        <td class="px-6 py-4 ">{{ entry.supplier__name }}</td>
                           <td class="px-6 py-4 text-green-500">Rs: {{ entry.sale }}</td>
                         {% endif%}
                       <td class="px-6 py-4 ">Rs: {{entry.total}}</td>  
@@ -99,7 +105,7 @@
                     {% elif entry.payment >= 0 %}
                       {# Ledger Data #}
                       <td class="px-6 py-4 text-green-500">{{ entry.payment_date|date:"d M h:i a" }}</td>
-                      <td class="px-6 py-4" colspan="3">{{ entry.description }}</td>  {# Leave PNR cell empty for Ledger #}
+                      <td class="px-6 py-4" colspan="4">{{ entry.description }}</td>  {# Leave PNR cell empty for Ledger #}
                       <td class="px-6 py-4 text-green-500">Rs: {{entry.payment}}</td>  
                       <td class="px-6 py-4 ">Rs: {{entry.total}}</td>  
                             {% if user.is_authenticated%}
@@ -110,7 +116,7 @@
                             {% endif%}
                     {% elif entry.payment <= 0 %}
                             <td class="px-6 py-4 text-red-500">{{ entry.payment_date|date:"d M h:i a" }}</td>
-                            <td class="px-6 py-4" colspan="2">{{ entry.description }}</td>  {# Leave PNR cell empty for Ledger #}
+                            <td class="px-6 py-4" colspan="3">{{ entry.description }}</td>  {# Leave PNR cell empty for Ledger #}
                             <td class="px-6 py-4 text-red-500">Rs: {{ entry.payment }}</td>
                             <td class="px-6 py-4 "></td>  
 

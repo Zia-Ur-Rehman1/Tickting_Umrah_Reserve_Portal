@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Visas{% endblock %}
+{% block title %}Visa{% endblock %}
 
 {% block content %}
 
 <div class="mx-auto max-w-2xl text-center">
-  <h5 class="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">Today's Rial Price: {{price}}</h5>
+  <h5 class="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">Today's Riyal Price: {{price}}</h5>
 </div>
 
 <div class="mt-8 mx-8 flow-root">
@@ -16,12 +16,12 @@
             <thead class="bg-gray-50">
               <tr>
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Date</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Pass Name</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Pass Num</th>
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Supplier</th>
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"> Customer </th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Purchase</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Sale</th>
-      
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Rial Price</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">PKR Price</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Visa Type</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Duration</th>
@@ -32,12 +32,12 @@
               {% for visa in visas %}
                 <tr>
                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ visa.created_at|date:"d-M" }}</td>
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ visa.pass_name }} </td>
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ visa.pass_num }} </td>
                   <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ visa.supplier.name }} </td>
                   <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{visa.customer.name}} </td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ visa.purchase }}</td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ visa.sale }}</td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ visa.rial_price }}</td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ visa.pkr_price }}</td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ visa.purchase }} / {{visa.purchase_pkr}}</td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ visa.sale }} / {{visa.sale_pkr}}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ visa.get_visa_type_display }}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ visa.get_duration_display }}</td>
                   <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">

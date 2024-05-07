@@ -25,7 +25,6 @@
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ field.balance }}</td>
 
                 <td>
-
                   <a href="{% url model_name|add:'_update' pk=field.id %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
                   <a href="#" id="cus-sup-del" data-tid="{{field.id}}" data-model="{{model_name}}"  class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
                   <a href="{% url 'supplier_ledger' pk=field.id|encode_id model_name=model_name%}" class="text-green-500 hover:text-green-900">View Ledger<span class="sr-only">, </span></a>

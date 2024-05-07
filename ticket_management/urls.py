@@ -18,10 +18,23 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from ticket.views import  *
+from django.contrib.auth import views as auth_views
 from ticket.csv_manipulation import upload_csv
 from ticket.pdf_generation import *
+from ticket.voucher_views import *
+from ticket.parse_ticket_pdf import *
+from ticket.bank_views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('ticket/password_reset/', auth_views.PasswordResetView.as_view(template_name="accounts/password_reset.html"),  name="reset_password"),
+    path('ticket/password_reset/done/', auth_views.PasswordResetDoneView.as_view(
+        template_name="accounts/password_reset_sent.html"), 
+        name="password_reset_done"
+    ),
+    path('ticket/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="accounts/password_reset_form.html"), name="password_reset_confirm"),
+    path('ticket/reset/done/', auth_views.PasswordResetCompleteView.as_view(
+        template_name="accounts/password_reset_done.html"), 
+        name="password_reset_complete"),
     path("__reload__/", include("django_browser_reload.urls")),
     path("__debug__/", include("debug_toolbar.urls")),
     path('tickets/', index, name='index'),
@@ -51,7 +64,22 @@ urlpatterns = [
     path('visas', visa_list, name='visa_list'),
     path('visa/create', visa_create, name='visa_create'),
     path('visa/update/<int:pk>', visa_update, name='visa_update'),
-    path('rialprice/create', rialprice_create, name='rialprice_create'),
+    path('riyalprice_create/create', riyalprice_create, name='riyalprice_create'),
+    path('profit/', profit, name='profit'),
+    path('hotel_list/', hotel_list, name='hotel_list'),
+    path('update_hotel/<int:pk>/', update_hotel, name='update_hotel'),
+    path('add_hotel/', add_hotel, name='add_hotel'),
+    path('parse_file/', parse_file, name='parse_file'),
+    path('parse_pdf/', parse_pdf, name='parse_pdf'),
+    path('ajax/load-hotels/', load_hotels, name='ajax_load_hotels'),
+    path('ajax/load-rooms/', load_rooms, name='ajax_load_rooms'),
+    path('ajax/get_visas/', get_visas, name='ajax_get_visas'),
+    path('create_voucher/', create_voucher, name='create_voucher'),
+    path('update_voucher/<int:pk>', update_voucher, name='update_voucher'),
+    path('vouchers/', vouchers, name='vouchers'),
+    path('banks/', banks, name='banks'),
+    path('bank_create/', bank_create, name='bank_create'),
+    path('bank_update/', bank_update, name='bank_update'),
     
     
 ]

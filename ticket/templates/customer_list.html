@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
-{% block title %}Customer{% endblock %}
+{% block page_title %}Customer{% endblock %}
+
 {% block content %}
     <h2 class="flex justify-center text-2xl pt-2">Total Balance <br> {{total}}</h2>
 {% include 'partials/table_input_fields.html' with  data=customers model_name=model_name%}

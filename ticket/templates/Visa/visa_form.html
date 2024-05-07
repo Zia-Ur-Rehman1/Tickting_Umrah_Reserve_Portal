@@ -1,6 +1,10 @@
 
 {% extends 'base.html' %}
 {% load static%}
+{% block page_title %}
+{% if form.instance.id %} Update Visa {% else %} Create Visa {% endif %}
+{% endblock %}
+
 
 
 {% block content %}
@@ -8,7 +12,7 @@
 
 <div class="mx-auto max-w-2xl text-center">
     <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{% if form.instance.id %} Update Visa {% else %} Create Visa {% endif %}</h1>
-    <h5 class="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">Today's Rial Price: {{price}}</h5>
+    <h5 class="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">Today's Riyal Price: {{price}}</h5>
   </div>
   {% if form.errors %}
   <ul>
@@ -46,8 +50,8 @@
           {% endfor %}
         </select>
       </div>
-      <!-- Customer Field -->
 
+      <!-- Customer Field -->
       <div class="col-span-2 md:col-span-1 lg:col-span-1">
         <label
           for="customer_id"
@@ -68,46 +72,46 @@
         </select>
       </div>
 
-
-
-      <!-- Rial Field-->
+      <!-- Pass Name Field-->
       <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
-        <label for="rial_price" class="block text-sm font-semibold leading-6 text-gray-900">Rial</label>
+        <label for="pass_name" class="block text-sm font-semibold leading-6 text-gray-900">Name</label>
         <div class="mt-2.5">
-          <input type="text"  name="rial_price" required id="rial_price" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
-          value="{% if form.instance.rial_price %}{{ form.instance.rial_price }}{% endif %}">
+          <input type="text" name="pass_name" required id="pass_name" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+          value="{% if form.instance.pass_name %}{{ form.instance.pass_name }}{% endif %}">
         </div>
       </div>
 
-      <!-- PKR Field-->
-      <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
-        <label for="pkr_price" class="block text-sm font-semibold leading-6 text-gray-900">PKR</label>
-        <div class="mt-2.5">
-          <input type="text" name="pkr_price" id="pkr_price" required  autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
-          value="{% if form.instance.pkr_price %}{{ form.instance.pkr_price }}{% endif %}">
-      </div>
-      </div>
 
-
-      <!-- Purchase Field-->
+      <!-- Pass num Field-->
       <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
-        <label for="purchase" class="block text-sm font-semibold leading-6 text-gray-900">Purchase</label>
+        <label for="pass_num" class="block text-sm font-semibold leading-6 text-gray-900">Passport Number</label>
         <div class="mt-2.5">
-          <input type="text" name="purchase" required id="purchase" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
-          value="{% if form.instance.purchase %}{{ form.instance.purchase }}{% endif %}">
+          <input type="text" name="pass_num" required id="pass_num" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+          value="{% if form.instance.pass_num %}{{ form.instance.pass_num }}{% endif %}">
         </div>
       </div>
+
 
       
-      <!-- Sale Field-->
+      <!-- Purchase PKR Field-->
       <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
-        <label for="sale" class="block text-sm font-semibold leading-6 text-gray-900">Sale</label>
+        <label for="purchase_pkr" class="block text-sm font-semibold leading-6 text-gray-900">Purchase PKR</label>
         <div class="mt-2.5">
-          <input type="text" name="sale" id="sale" required  autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
-          value="{% if form.instance.sale %}{{ form.instance.sale }}{% endif %}">
+          <input type="text" name="purchase_pkr" id="purchase_pkr"   autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+          value="{% if form.instance.purchase_pkr %}{{ form.instance.purchase_pkr }}{% endif %}">
       </div>
       </div>
-     
+
+      <!-- Sale PKR Field-->
+      <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+        <label for="sale_pkr" class="block text-sm font-semibold leading-6 text-gray-900">Sale PKR</label>
+        <div class="mt-2.5">
+          <input type="text"  name="sale_pkr"  id="sale_pkr" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+          value="{% if form.instance.sale_pkr %}{{ form.instance.sale_pkr }}{% endif %}">
+        </div>
+      </div>
+      
+      
       <!-- Visa Field-->
       <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
         <label for="visa_type" class="block text-sm font-semibold leading-6 text-gray-900">Visa Type</label>
@@ -135,6 +139,27 @@
         </div>
         </div>
 
+      <!-- Purchase Field-->
+      <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+        <label for="purchase" class="block text-sm font-semibold leading-6 text-gray-900">Purchase SAR</label>
+        <div class="mt-2.5">
+          <input type="text" name="purchase"  id="visa_purchase" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+          value="{% if form.instance.purchase %}{{ form.instance.purchase }}{% endif %}">
+        </div>
+      </div>
+
+      
+      <!-- Sale Field-->
+      <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+        <label for="sale" class="block text-sm font-semibold leading-6 text-gray-900">Sale SAR</label>
+        <div class="mt-2.5">
+          <input type="text" name="sale" id="visa_sale"   autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+          value="{% if form.instance.sale %}{{ form.instance.sale }}{% endif %}">
+      </div>
+      </div>
+     
+
+
         <!-- CREATED AT Field -->
       <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
         <label for="created_at" class="block text-sm font-semibold leading-6 text-gray-900">Created At</label>
@@ -142,6 +167,16 @@
           <input type="datetime-local" name="created_at" id="created_at" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{{ form.instance.created_at|date:'Y-m-d\TH:i' }}">
         </div>
       </div>
+
+      <!-- Riyal Rate -->
+      <div class= 'col-span-2 md:col-span-1 lg:col-span-1'>
+        <label for="riyal_rate" class="block text-sm font-semibold leading-6 text-gray-900">riyal</label>
+        <div class="mt-2.5">
+          <input type="text"  name="riyal_rate" required id="riyal_rate" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+          value="{{price}}">
+        </div>
+      </div>
+
       <div class="col-span-2 lg:col-span-4 flex justify-center mt-6">
         <div class="flex items-center space-x-4">
           <!-- Update or Save Ticket button -->
@@ -171,14 +206,6 @@
         });
     });
 </script>
-<script>
-  document.getElementById('rial_price').addEventListener('input', function() {
-      var rialPrice = this.value;
-      var price = {{ price }};  // Make sure this variable is available in your template context
-      var pkrPrice = rialPrice * price;
-      document.getElementById('pkr_price').value = pkrPrice.toFixed(2);  // Update the PKR value field
-  });
-  </script>
   
 
 {% endblock %}

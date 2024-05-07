@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content%}
+<div class="h-full mt-10 w-full bg-teal-200 p-10 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100 flex flex-col items-center space-y-4">
+<form method="POST" > 
+<!-- Visa Form-->
+
+  <div class="flex justify-center  gap-5"> 
+            {% crispy visa_form %}
+ </div>
+<!-- Transport Form-->
+ <div class="flex justify-center  gap-5"> 
+  {% crispy transport_form %}
+  </div>
+<!-- HotelBooking Form-->
+  <div id="form_part" class="">
+          {{ hotel_formset.management_form }}
+          {% for hotel in hotel_formset %}
+          <div class="form-template">
+            {% crispy hotel %}
+          </div>
+            {% endfor %}
+      </div>
+
+<!-- Trip Form-->
+
+        <div id="trip_form" class="">
+          {{ trip_formset.management_form }}
+          {% for trip in trip_formset %}
+          <div class="trip-form">
+            {% crispy trip %}
+          </div>
+            {% endfor %}
+        </div>
+        <input type="hidden" id="v_id" value="{{ voucher_id }}">
+        <div class="flex justify-center w-full">
+          <button type="submit" id="submit_btn" class="bg-green-500 hover:bg-green-700 text-white font-bold px-4 py-2 rounded mt-8">
+          Submit
+          </button>
+      </div>
+    </form>
+</div>
+{% endblock %}

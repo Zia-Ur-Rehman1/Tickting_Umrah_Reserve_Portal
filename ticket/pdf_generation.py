@@ -2,11 +2,13 @@ from django.http import FileResponse
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import inch
 from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Table, Paragraph, Image
+from reportlab.platypus import SimpleDocTemplate, Table, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from .ledger_views import *
 from .forms import PdfGenerationForm
 from functools import partial
+from django.templatetags.static import static
+from reportlab.platypus import Image as PlatypusImage 
 def generatePDF(request):
     if request.method == 'POST':
         form = PdfGenerationForm(request.POST)
@@ -53,15 +55,18 @@ def drawHeader(canvas, doc, start_at, end_at, user=None):
     canvas.setFillColor(colors.black)
     if user.id == 2:
         company_name = "HASNAIN TRAVEL AND TOURS PRIVATE LIMITED"
-    else:
+    elif user.id == 3:
         company_name = "KARWAN E HASSAN HAJJ AND UMRAH SERVICES"
-        
+    else:
+        company_name = "HASNAIN TRAVEL AND TOURS PRIVATE LIMITED"
     canvas.drawString(doc.leftMargin, doc.height + doc.bottomMargin + doc.topMargin - 30, company_name)
     # Draw the image on the right end of the page
     if user.id == 2:
-        img = Image('ticket/static/ticket/images/HT.png', width=50, height=50)
+        img = PlatypusImage('ticket/static/ticket/images/HT.png', width=50, height=50)
+    elif user.id == 3:
+        img = PlatypusImage('ticket/static/ticket/images/Karwan.jpg', width=50, height=50)
     else:
-        img = Image('ticket/static/ticket/Karwan.jpg', width=50, height=50)
+        img = PlatypusImage('ticket/static/ticket/images/HT.png', width=50, height=50)
     img.drawOn(canvas, doc.width + doc.leftMargin - 30 , doc.height + doc.bottomMargin + doc.topMargin- 60 )
     # Draw the phone number on the next line
     if user.id == 2:
@@ -87,13 +92,14 @@ def createPDF(request, pk, model, start_at, end_at):
     table_data = []
     headers=['DATE','PNR', 'PASSENGER', 'PURCHASE', 'PAYMENT', 'BALANCE']
     table_data.append(headers)
+    styles = getSampleStyleSheet()
     for entry in combined_data:
         if entry.get('pnr'):
             message = str(entry['purchase']) if model == 'supplier' else str(entry['sale'])
             ticket_row = [
                 entry['created_at'].strftime('%d %b '),
-                entry['pnr'],
-                entry['passenger'],
+                Paragraph(entry['pnr'],styles["BodyText"]),
+                Paragraph(entry['passenger'],styles["BodyText"]),
                 Paragraph(f"Rs: {message}", purchase), 
                  '',  # Leave these cells empty
                 f"Rs: {entry['total']}"
@@ -151,3 +157,31 @@ def pdf_styles():
 				alignment=1
             )
     return heading_style, purchase, payment
+
+
+def parse_pk(file):
+    pdf = PDFQuery("pk2.pdf")
+    elements = pdf.pq('LTTextLineHorizontal')
+    # Iterate over the elements and print their bounding box and text
+    extraction_queries = [
+                ('with_parent', 'LTPage[pageid="1"]'),
+                ('with_formatter', 'text'),
+                ('airline', 'LTTextLineHorizontal:in_bbox("43.5,572.616,54.768,581.616")'),
+
+                ('from', 'LTTextLineHorizontal:in_bbox("139.312,610.825,180.221,622.825")'),
+                # Extract the arrival city
+                ('to', 'LTTextLineHorizontal:in_bbox("234.525,610.825,265.497,622.825")'),
+                # Extract the PNR
+                ('pnr', 'LTTextLineHorizontal:in_bbox("249.0,684.59,286.05,694.34")'),
+                # Extract the passenger name
+                ('passenger', 'LTTextLineHorizontal:in_bbox("249.0,698.203,384.037,707.953")'),
+                # Extract the date
+                ('travel_date', 'LTTextLineHorizontal:in_bbox("178.5,505.229,228.528,513.479")'),
+                ('return_date', 'LTTextLineHorizontal:in_bbox("178.5,314.992,228.965,323.242")'),
+                ]
+    for key, value in data.items():
+        print(f"{key}: {value}")
+    for element in elements.items():
+        bbox = element.attr('bbox')
+        text = element.text()
+        print(f"Bounding Box: {bbox}, Text: {text} ")

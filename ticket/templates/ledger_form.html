@@ -1,4 +1,9 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+{% block page_title %}
+{% if form.instance.id %} Update Payment {% else %} Create Payment {% endif %}
+{% endblock %}
+
+{% block content %}
 
 <div class="isolate bg-white px-6 py-5 sm:py-5 lg:px-4 add-bg">
   {% if form.errors %}
@@ -14,25 +19,45 @@
     </ul>
   </div>
   {% endif %}
-  <div class="flex items-center justify-center h-auto">
+</div>  <!-- Top Div Closed Error Div -->
+<div class="h-3/4 w-full bg-blue-300 p-10 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100">
 
-  <div class=" h-auto max-w-lg bg-blue-300 p-10 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100">
     <div class="mx-auto max-w-2xl text-center">
       <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
         {% if form.instance.id %} Update Ledger {% else %} Create Ledger {% endif %}
       </h1>
     </div>
-    <div class="grid grid-cols-1">
-      <form
-        method="POST"
-        enctype="multipart/form-data"
-        class="mx-auto mt-16 sm:mt-20"
-      >
-        {% csrf_token %}
+    <form
+    method="POST"
+    enctype="multipart/form-data"
+    class="mx-auto mt-16 sm:mt-20"
+    >
+    {% csrf_token %}
+    <div class="grid lg:grid-cols-4 md:grid-cols-3 gap-x-8 gap-y-6 sm:grid-cols-2">
         <input type="hidden" name="user" value="{{ request.user.id }}">
+        <!-- Bank Field -->
+        <div class= "col-span-2 md:col-span-1 lg:col-span-1">
+          <label
+            for="bank"
+            class="block text-sm font-semibold leading-6 text-gray-900"
+            >Bank</label
+          >
+          <div class="mt-2.5"></div>
+          <select
+            name="bank"
+            id="bank_id"
+            class="block w-full form-control rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          >
+            <option></option>
+            {% for bank in form.bank.field.queryset %}
+            <option value="{{ bank.id }}" {% if bank.id == form.initial.bank %}selected{% endif %}>{{ bank.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        
 
         <!-- Supplier Field -->
-        <div class="col-span-6 md:col-span-1 lg:col-span-1">
+        <div class= "col-span-2 md:col-span-1 lg:col-span-1">
           <label
             for="supplier"
             class="block text-sm font-semibold leading-6 text-gray-900"
@@ -52,7 +77,8 @@
         </div>
         <!-- Customer Field -->
 
-        <div class="col-span-6 md:col-span-1 lg:col-span-1">
+        <div class= "col-span-2 md:col-span-1 lg:col-span-1">
+
           <label
             for="customer"
             class="block text-sm font-semibold leading-6 text-gray-900"
@@ -72,7 +98,7 @@
         </div>
 
         <!-- Payemnt Field -->
-        <div class="col-span-2 md:col-span-1 lg:col-span-1">
+        <div class= "col-span-2 md:col-span-1 lg:col-span-1">
           <label
             for="payment"
             class="block text-sm font-semibold leading-6 text-gray-900"
@@ -124,6 +150,37 @@
             >{{ form.instance.description }}</textarea>
           </div>
         </div>
+
+        <!-- Upload file -->
+          <div class="flex items-center justify-center  bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 rounded-lg h-1/4 mt-8">
+          <div class="max-w-md w-full space-y-8">
+            <div class="text-center">
+              <label for="file-upload" class="ml-5 px-4 py-2 align-middle hover:bg-blue-100 relative cursor-pointer bg-white rounded-lg font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 shadow-lg">
+                <span class="px-4 py-2">Upload Payment</span>
+                <input id="file-upload" name="file-upload" type="file" class="absolute top-[-10px] left-[-50px] file-upload-css opacity-0 cursor-pointer">
+              </label>
+              <p id="file-name" class="text-center pt-2 pl-5">or drag and drop</p>
+              <p class="text-xs text-gray-500 text-center pl-5">PNG, JPG</p>
+            </div>
+          </div>
+        </div>
+         
+        <div class="col-span-2 md:col-span-1 lg:col-span-1">
+          <label
+              for="transaction_type"
+              class="block text-sm font-semibold leading-6 text-gray-900"
+          >Transaction Type</label
+          >
+          <div class="mt-2.5"></div>
+          {% for radio in form.transaction_type %}
+          <label>
+              {{ radio.tag }}
+              {{ radio.choice_label }}
+          </label>
+          {% endfor %}
+      </div>
+      
+
         
         <div class="col-span-4 flex justify-center mt-6">
           <div class="flex items-center space-x-4">
@@ -139,7 +196,7 @@
               name="save_and_add_another"
               class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
             >
-              {% if form.instance.id %} Update And Add Another {% else %} Save And Add Another {% endif %}
+              {% if form.instance.id %} Add Another {% else %} Add Another {% endif %}
             </button>
             
           </div>
@@ -161,6 +218,11 @@
               allowClear: true,
               theme: "classic"
           });
+          $("#bank_id").select2({
+            placeholder: "Select a Bank",
+            allowClear: true,
+            theme: "classic"
+        });
       });
   </script>
   

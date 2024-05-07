@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content%}
+<div class="h-full mt-10  w-full bg-teal-200 p-10 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100">
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+    
+        {{ hotel_formset.management_form }}
+        {% for form in hotel_formset %}
+            <div class="form-template">
+                {% crispy form %}
+            </div>
+        {% endfor %}
+    
+        {{ room_formset.management_form }}
+        {% for form in room_formset %}
+            <div class="form-template">
+                {% crispy form %}
+            </div>
+        {% endfor %}
+    
+        {{ booking_formset.management_form }}
+        {% for form in booking_formset %}
+            <div class="form-template">
+                {% crispy form %}
+            </div>
+        {% endfor %}
+    
+        {{ trip_formset.management_form }}
+        {% for form in trip_formset %}
+            <div class="form-template">
+                {% crispy form %}
+            </div>
+        {% endfor %}
+    
+        {{ visa_formset.management_form }}
+        {% for form in visa_formset %}
+            <div class="form-template">
+                {% crispy form %}
+            </div>
+        {% endfor %}
+    
+        <button type="submit">Create</button>
+    </form>
+    
+<div>
+{% endblock %}

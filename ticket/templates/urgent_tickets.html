@@ -1,59 +1,70 @@
 {% extends "base.html" %}
-{% block content %}
+{% block content%}
 <div class="mt-8 flow-root">
-    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-          <table class="min-w-full divide-y divide-gray-300">
-            <thead class="bg-gray-50">
+  <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+        <table class="min-w-full  divide-y divide-gray-300">
+          <thead class="bg-gray-50">
+            <tr>
+              {% if user.id == 3 %}
+              <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Id</th>
+              {% endif %}
+              <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Date</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Passenger</th>
+              <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">PNR</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Sector</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Travel Date</th>
+              {% comment %} <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Return Date</th> {% endcomment %}
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Airline</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Supplier</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Customer</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Sale</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Purchase</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Issued By</th>
+              <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 bg-white">
+            {% for ticket in tickets %}
               <tr>
-                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">PNR</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Sector</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Travel Date</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Airline</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Supplier</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Purchase</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Customer</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Sale</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Passenger</th>
-                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                  
-                </th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200 bg-white">
-              {% for ticket in tickets %}
-                <tr>
-                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ ticket.pnr }}</td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.sector }}</td>
-                  {% if ticket.travel_date %}
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ ticket.travel_date|date:"d-M" }}</td>
-                  {% else %}
-                  <td class="whitespace-nowrap px-3 py-4 text-sm">
-                    <span class="bg-red-400 text-white">VOID</span>
-                  </td>
-                  
-                  {% endif %}
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.airline }}</td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.supplier.name }}</td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.purchase }}</td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.customer.name }}</td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.sale }}</td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.passenger }}</td>
-                  <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-  
-                    <a href="{% url 'ticket_update' pk=ticket.pk %}" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
-                    <a href="{% url 'delete_record' pk=ticket.pk model_name='ticket' %}" class="text-indigo-600 hover:text-indigo-900">Delete<span class="sr-only">, </span></a>
+                {% if user.id == 3 %}
+                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ ticket.excel_id|default_if_none:'-'}}</td>
+                {% endif %}
+
+                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ ticket.created_at|date:"d-M" }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.passenger }}</td>
+                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ ticket.pnr }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.sector }}</td>
+                {% if ticket.travel_date %}
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ ticket.travel_date|date:"d-M" }}</td>
+                {% else %}
+                <td class="whitespace-nowrap px-3 py-4 text-sm">
+                  <span class="bg-red-400 text-white">VOID</span>
+                </td>
                 
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
+                {% endif %}
+                {% comment %} <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.return_date|date:"d-M" }}</td> {% endcomment %}
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.airline }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.supplier.name }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.customer.name }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.sale }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.purchase }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ticket.issued_by|default_if_none:'-' }}</td>
+                <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 flex justify-center">
+
+                  <a href="{% url 'ticket_update' pk=ticket.pk %}" class="text-indigo-600 mr-2 hover:text-indigo-900">Edit<span class="sr-only">, </span></a>
+                  <a href="#" id="ticket-del" data-tid="{{ticket.pk}}" data-model="ticket"  class="text-indigo-600 hover:text-indigo-900"> Delete<span class="sr-only">, </span></a>
+              
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-  </div>
-  
-{% endblock%}
+</div>
+</div>
+
+{%endblock%}

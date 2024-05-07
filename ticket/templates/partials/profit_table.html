@@ -1,0 +1,60 @@
+{% load math_filters %}
+{% block content %}
+
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg m-5">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Sale
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Purcahse
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Paid
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Pending Amount
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Profit/Loss
+                </th>
+                <th scope="col" class="px-6 py-3">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers%}
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{customer.name}}
+                </th>
+                <td class="px-6 py-4">
+                    {{customer.total_sale}}
+                </td>
+                <td class="px-6 py-4">
+                    {{customer.total_purchase}}
+                </td>
+                <td class="px-6 py-4">
+                    {{customer.total_payment    }}
+                </td>
+                <td class="px-6 py-4">
+                    {{customer.balance    }}
+                </td>
+                <td class="px-6 py-4">
+                    {{customer.profit}}
+                </td>
+                <td class="px-6 py-4 text-right">
+                    <a href="{% url 'supplier_ledger' pk=customer.id|encode_id model_name='customer'%}" class="font-medium  dark:text-blue-500 text-green-500 hover:text-green-900 hover:underline">View Details</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock%}
